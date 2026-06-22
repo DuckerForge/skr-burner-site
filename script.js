@@ -20,4 +20,14 @@
     el.style.transitionDelay = (i % 4) * 60 + "ms";
     io.observe(el);
   });
+
+  // Failsafe: never leave content permanently hidden if the observer misfires.
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      document.querySelectorAll(".reveal:not(.in)").forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("in");
+      });
+    }, 1200);
+  });
 })();
