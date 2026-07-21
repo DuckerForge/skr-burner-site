@@ -301,7 +301,8 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid rgba(255,102,0,0.3); border-radius: var(--radius-lg);
   padding: 60px 28px;
 }
-.cta__logo { width: 64px; height: 64px; border-radius: 16px; margin-bottom: 18px; box-shadow: 0 0 40px rgba(255,102,0,0.5); }
+.cta__logo { width: 64px; height: 64px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 0 40px rgba(255,102,0,0.5); }
+.cta__ver { margin: 0 0 10px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.12em; color: var(--ember, #ff6600); text-transform: uppercase; }
 .cta__inner h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin-bottom: 10px; }
 .cta__inner p { color: var(--muted); font-size: 1.08rem; max-width: 480px; margin: 0 auto 26px; }
 .cta__btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
@@ -477,6 +478,83 @@ a { color: inherit; text-decoration: none; }
   .flagwars__img { width: min(100%, 300px); }
   .lang { margin-left: auto; }
 }
+
+/* ---------- Daily Fire Chests showcase ---------- */
+.section--chests { padding-top: 20px; }
+.firechests {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 36px;
+  align-items: center;
+  background:
+    radial-gradient(70% 70% at 75% 45%, rgba(255,102,0,0.16), transparent 62%),
+    linear-gradient(195deg, #16121a, #0c0a10 55%, #1a0c06);
+  border: 1px solid rgba(255,102,0,0.35);
+  border-radius: var(--radius-lg);
+  padding: 28px 22px 28px 28px;
+  overflow: hidden;
+}
+.firechests__art {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 220px;
+}
+.firechests__rays {
+  position: absolute;
+  inset: -8% -4%;
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      rgba(255,102,0,0.14) 0deg 8deg,
+      transparent 8deg 18deg
+    );
+  mask-image: radial-gradient(circle at 50% 55%, #000 18%, transparent 68%);
+  -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 18%, transparent 68%);
+  opacity: 0.85;
+  animation: chestRays 18s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes chestRays {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.firechests__img {
+  width: min(100%, 420px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 36px rgba(255,80,0,0.4));
+  position: relative; z-index: 1;
+  border-radius: 14px;
+}
+.firechests__glow {
+  position: absolute; inset: 28% 16%;
+  background: radial-gradient(circle, rgba(255,102,0,0.42), transparent 68%);
+  filter: blur(34px); z-index: 0; pointer-events: none;
+}
+.firechests__copy .eyebrow { display: inline-block; margin-bottom: 8px; }
+.firechests__copy h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  margin-bottom: 14px;
+}
+.firechests__copy p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin-bottom: 22px;
+  max-width: 46ch;
+}
+@media (max-width: 860px) {
+  .firechests {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 22px 18px 28px;
+  }
+  .firechests__copy p { margin-left: auto; margin-right: auto; }
+  .firechests__img { width: min(100%, 340px); }
+  .firechests__art { order: -1; }
+}
+
 @media (max-width: 560px) {
   .lang__btn { width: 28px; height: 28px; font-size: 13px; }
 }

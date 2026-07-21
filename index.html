@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SKR Burner - Burn SKR, earn Founder Points on Solana Seeker</title>
-  <meta name="description" content="SKR Burner is a non-custodial Solana Seeker app: burn SKR tokens, earn Founder Points, play Flag Wars, climb the leaderboard and join weekly giveaways &amp; airdrop pools." />
+  <meta name="description" content="SKR Burner is a non-custodial Solana Seeker app: burn SKR tokens, earn Founder Points, play Flag Wars &amp; Daily Fire Chests, climb the leaderboard and join weekly giveaways &amp; airdrop pools." />
   <meta name="theme-color" content="#ff6600" />
 
   <!-- Open Graph / social -->
@@ -37,6 +37,7 @@
     <nav class="nav__links" aria-label="Primary">
       <a href="#features" data-i18n="navFeatures">Features</a>
       <a href="#flagwars" data-i18n="navFlag">Flag Wars</a>
+      <a href="#firechests" data-i18n="navChests">Fire Chests</a>
       <a href="#screens" data-i18n="navScreens">Screens</a>
       <a href="#how" data-i18n="navHow">How it works</a>
       <a href="privacy.html" data-i18n="navPrivacy">Privacy</a>
@@ -61,7 +62,7 @@
         <p class="hero__sub" data-i18n="heroSub">
           A non-custodial burner for the Solana Mobile Seeker. Torch your SKR on-chain,
           rack up Founder Points, climb the global leaderboard and join weekly
-          giveaways, airdrop pools &amp; Flag Wars - all from your phone.
+          giveaways, airdrop pools, Flag Wars &amp; Daily Fire Chests - all from your phone.
         </p>
         <div class="hero__cta">
           <a class="btn btn--primary btn--lg" href="#download">
@@ -138,6 +139,11 @@
           <p data-i18n="featFlagBody">King-of-the-hill snipes: pay SOL + burn SKR, hold the flag to farm FP (boosted Mon &amp; Thu). Monday last holder takes the bag - 90% of each snipe fills the Flag pool.</p>
         </article>
         <article class="card reveal">
+          <div class="card__ico">🧰</div>
+          <h3 data-i18n="featChestTitle">Daily Fire Chests</h3>
+          <p data-i18n="featChestBody">Three mystery chests a day. Open 3 per board, then pay SKR to refresh (max 5). FP from chests counts toward Airdrop Pt.2.</p>
+        </article>
+        <article class="card reveal">
           <div class="card__ico">⭐</div>
           <h3 data-i18n="featFpTitle">Founder Points</h3>
           <p data-i18n="featFpBody">Earn FP for every burn, daily check-in and milestone. Your points fuel your rank and your share of the pools.</p>
@@ -187,6 +193,23 @@
           <span class="eyebrow" data-i18n="flagEyebrow">Flag Wars</span>
           <h2 data-i18n="flagTitle">Snipe. Hold. Farm FP.</h2>
           <p data-i18n="flagBody">Pay SOL + burn SKR to steal the flag. Hold it to farm Fire Points every hour, boosted on Monday &amp; Thursday. Last holder at Monday reset takes the Flag bag. 90% of every snipe grows the pool, 10% keeps the lights on.</p>
+          <a class="btn btn--primary" href="#download" data-i18n="navCta">Get the app</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAILY FIRE CHESTS SHOWCASE -->
+    <section class="section section--chests" id="firechests">
+      <div class="firechests reveal">
+        <div class="firechests__art">
+          <div class="firechests__rays" aria-hidden="true"></div>
+          <img src="assets/fire-chests.png" alt="Daily Fire Chests" data-i18n-attr="alt:chestAlt" class="firechests__img" width="640" height="360" />
+          <div class="firechests__glow" aria-hidden="true"></div>
+        </div>
+        <div class="firechests__copy">
+          <span class="eyebrow" data-i18n="chestEyebrow">Daily Fire Chests</span>
+          <h2 data-i18n="chestTitle">Pick. Open. Climb FP.</h2>
+          <p data-i18n="chestBody">Three mystery chests each day. Open 3 on a board (opened stay open). Pay SKR to refresh for 3 more opens, up to 5 paid refreshes. Chest FP feeds your rank toward Airdrop Pt.2.</p>
           <a class="btn btn--primary" href="#download" data-i18n="navCta">Get the app</a>
         </div>
       </div>
@@ -323,8 +346,11 @@
     <section class="cta" id="download">
       <div class="cta__inner reveal">
         <img src="assets/logo.jpg" alt="SKR Burner" class="cta__logo" />
+        <p class="cta__ver">v2.1.4</p>
         <h2 data-i18n="ctaTitle">Ready to start burning?</h2>
-        <p data-i18n="ctaBody">Grab SKR Burner on the Solana dApp Store and torch your first SKR today.</p>
+        <p data-i18n="ctaBody">
+          Grab SKR Burner v2.1.4 on the Solana Seeker Store — Flag Wars, Daily Fire Chests, burns &amp; weekly pools.
+        </p>
         <div class="cta__btns">
           <a class="btn btn--primary btn--lg" href="https://store.solanamobile.com/" rel="noopener" target="_blank">
             <span data-i18n="ctaStore">🔥 Get it on Solana Seeker</span>
@@ -336,7 +362,7 @@
             Terms of Service
           </a>
         </div>
-        <p class="cta__fine">com.duckerforge.skrburn / Solana Mainnet / Non-custodial</p>
+        <p class="cta__fine">com.duckerforge.skrburn · v2.1.4 · Solana Mainnet · Non-custodial</p>
       </div>
     </section>
   </main>
