@@ -262,6 +262,7 @@
       height: 100%;
       padding: 42px 48px 52px;
       gap: 20px;
+      overflow: visible;
     }
     .copy { display: flex; flex-direction: column; justify-content: center; gap: 14px; }
     .pill {
@@ -328,9 +329,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 900px;
-      perspective-origin: 50% 45%;
-      transform-style: preserve-3d;
+      overflow: visible;
     }
     .phone {
       position: relative;
@@ -368,34 +367,37 @@
       z-index: 1;
     }
 
+    /* Casts live on the banner root (not inside .stage) so 3D rotate never gets clipped */
     .cast {
       position: absolute;
-      z-index: 3;
-      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.55));
+      z-index: 8;
       transform-origin: center center;
-      transform-style: preserve-3d;
       will-change: transform;
-      backface-visibility: hidden;
       cursor: grab;
       touch-action: none;
       user-select: none;
+      overflow: visible;
+      /* NO filter here — filter+3D+overflow:hidden clips the mesh diagonally */
     }
     .cast:active { cursor: grabbing; }
-    .cast.is-dragging { z-index: 20; outline: 1px dashed rgba(255,138,61,0.7); }
+    .cast.is-dragging { z-index: 30; outline: 1px dashed rgba(255,138,61,0.7); }
     .cast img {
       width: 100%; height: 100%;
       object-fit: contain;
       display: block;
       pointer-events: none;
+      filter: drop-shadow(0 14px 22px rgba(0,0,0,0.6));
+      transform-origin: center center;
+      will-change: transform;
     }
     .cast.is-hidden { display: none; }
 
-    /* default positions */
-    .cast--fp    { right: -8px;  top: 36px;   width: 150px; height: 150px; z-index: 5; }
-    .cast--flag  { right: -18px; bottom: 70px; width: 168px; height: 168px; z-index: 4; }
-    .cast--chest { right: 120px; bottom: 28px; width: 110px; height: 110px; z-index: 5; }
-    .cast--money { left: 18px;   bottom: 48px; width: 92px;  height: 92px;  z-index: 4; }
-    .cast--vault { left: 8px;    top: 70px;    width: 88px;  height: 88px;  z-index: 1; }
+    /* default left/top in banner coords (1200×600) */
+    .cast--fp    { left: 1010px; top: 50px;  width: 150px; height: 150px; }
+    .cast--flag  { left: 990px;  top: 330px; width: 168px; height: 168px; }
+    .cast--chest { left: 820px;  top: 400px; width: 120px; height: 120px; }
+    .cast--money { left: 640px;  top: 430px; width: 92px;  height: 92px; }
+    .cast--vault { left: 620px;  top: 90px;  width: 88px;  height: 88px; }
 
     @media (max-width: 1100px) {
       .page { grid-template-columns: 1fr; }
@@ -432,6 +434,13 @@
         </div>
         <div class="embers" aria-hidden="true"></div>
 
+        <!-- 3D cast: banner-level so rotate never clips against phone/stage -->
+        <div class="cast cast--vault" data-id="vault"><img src="assets/ico-app-vault.png" alt="Vault" /></div>
+        <div class="cast cast--fp" data-id="fp"><img src="assets/ico-app-fp.png" alt="Flame pet" /></div>
+        <div class="cast cast--flag" data-id="flag"><img src="assets/ico-app-flag.png" alt="Flag Bearer" /></div>
+        <div class="cast cast--chest" data-id="chest"><img src="assets/ico3d-chest.png" alt="Fire Chest" /></div>
+        <div class="cast cast--money" data-id="money"><img src="assets/ico-app-money.png" alt="Weekly pool" /></div>
+
         <div class="inner">
           <div class="copy">
             <span class="pill"><span class="pill__dot"></span> Built for the Solana Seeker</span>
@@ -442,7 +451,7 @@
             </p>
             <div class="chips">
               <span class="chip"><img src="assets/ico-app-flag.png" alt="" /> Flag Wars</span>
-              <span class="chip"><img src="assets/ico-app-chest.png" alt="" /> Fire Chests</span>
+              <span class="chip"><img src="assets/ico3d-chest.png" alt="" /> Fire Chests</span>
               <span class="chip"><img src="assets/ico-app-money.png" alt="" /> Weekly Pool</span>
             </div>
             <div class="brand">
@@ -456,17 +465,12 @@
 
           <div class="stage">
             <div class="phone-glow" aria-hidden="true"></div>
-            <div class="cast cast--vault" data-id="vault"><img src="assets/ico-app-vault.png" alt="Vault" /></div>
             <div class="phone">
               <div class="phone__notch"></div>
               <div class="phone__screen">
                 <img src="screenshots/home.jpg" alt="SKR Burner on Seeker" width="720" height="1602" />
               </div>
             </div>
-            <div class="cast cast--fp" data-id="fp"><img src="assets/ico-app-fp.png" alt="Flame pet" /></div>
-            <div class="cast cast--flag" data-id="flag"><img src="assets/ico-app-flag.png" alt="Flag Bearer" /></div>
-            <div class="cast cast--chest" data-id="chest"><img src="assets/ico-app-chest.png" alt="Fire Chest" /></div>
-            <div class="cast cast--money" data-id="money"><img src="assets/ico-app-money.png" alt="Weekly pool" /></div>
           </div>
         </div>
       </div>
@@ -478,24 +482,25 @@
   "use strict";
 
   var DEFAULTS = {
-    chest: { rotX: 0, rotY: -18, rotZ: 0, size: 110, x: 0, y: 0, flip: false, visible: true },
-    flag:  { rotX: 0, rotY: 12,  rotZ: 0, size: 168, x: 0, y: 0, flip: false, visible: true },
-    fp:    { rotX: 0, rotY: -8,  rotZ: 0, size: 150, x: 0, y: 0, flip: false, visible: true },
-    money: { rotX: 12, rotY: -25, rotZ: 0, size: 92,  x: 0, y: 0, flip: false, visible: true },
-    vault: { rotX: 0, rotY: 20,  rotZ: 0, size: 88,  x: 0, y: 0, flip: false, visible: true },
+    // x/y = left/top in banner pixels (1200×600)
+    chest: { rotX: 0, rotY: 0, rotZ: 0, size: 120, x: 820, y: 400, flip: false, visible: true },
+    flag:  { rotX: 0, rotY: 0, rotZ: 0, size: 168, x: 990, y: 330, flip: false, visible: true },
+    fp:    { rotX: 0, rotY: 0, rotZ: 0, size: 150, x: 1010, y: 50,  flip: false, visible: true },
+    money: { rotX: 0, rotY: 0, rotZ: 0, size: 92,  x: 640, y: 430, flip: false, visible: true },
+    vault: { rotX: 0, rotY: 0, rotZ: 0, size: 88,  x: 620, y: 90,  flip: false, visible: true },
   };
 
   var FLAME_DEFAULTS = { x: 0, y: 0, height: 46, scale: 100, visible: true };
 
   var META = {
-    chest: { label: "Fire Chest",  src: "assets/ico-app-chest.png", min: 60,  max: 220 },
+    chest: { label: "Fire Chest",  src: "assets/ico3d-chest.png",   min: 60,  max: 280 },
     flag:  { label: "Flag Bearer", src: "assets/ico-app-flag.png",  min: 80,  max: 260 },
     fp:    { label: "Flame pet",   src: "assets/ico-app-fp.png",    min: 70,  max: 240 },
     money: { label: "Money stack", src: "assets/ico-app-money.png", min: 50,  max: 180 },
     vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 50,  max: 180 },
   };
 
-  var KEY = "skr_banner_cast_v3";
+  var KEY = "skr_banner_cast_v4";
   var loaded = loadAll();
   var state = loaded.cast;
   var flames = loaded.flames;
@@ -508,7 +513,7 @@
 
   function loadAll() {
     try {
-      var raw = localStorage.getItem(KEY) || localStorage.getItem("skr_banner_cast_v2") || localStorage.getItem("skr_banner_cast_v1");
+      var raw = localStorage.getItem(KEY);
       var cast = JSON.parse(JSON.stringify(DEFAULTS));
       var fl = JSON.parse(JSON.stringify(FLAME_DEFAULTS));
       if (!raw) return { cast: cast, flames: fl };
@@ -523,8 +528,8 @@
           rotY: num(p.rotY, cast[id].rotY),
           rotZ: num(p.rotZ, cast[id].rotZ),
           size: num(p.size, cast[id].size),
-          x: num(p.x, 0),
-          y: num(p.y, 0),
+          x: num(p.x, cast[id].x),
+          y: num(p.y, cast[id].y),
           flip: !!p.flip,
           visible: p.visible !== false,
         });
@@ -560,15 +565,21 @@
     if (!el) return;
     var s = state[id];
     var flip = s.flip ? -1 : 1;
+    el.style.left = s.x + "px";
+    el.style.top = s.y + "px";
+    el.style.right = "auto";
+    el.style.bottom = "auto";
     el.style.width = s.size + "px";
     el.style.height = s.size + "px";
+    // Transform on wrapper (.cast), filter stays on <img> — avoids diagonal clip bug
     el.style.transform =
-      "translate(" + s.x + "px, " + s.y + "px) " +
-      "perspective(900px) " +
+      "perspective(1200px) " +
       "rotateX(" + s.rotX + "deg) " +
       "rotateY(" + s.rotY + "deg) " +
       "rotateZ(" + s.rotZ + "deg) " +
       "scaleX(" + flip + ")";
+    var img = el.querySelector("img");
+    if (img) img.style.transform = "none";
     el.classList.toggle("is-hidden", !s.visible);
   }
 
@@ -649,8 +660,8 @@
             (s.visible ? "👁" : "🚫") +
           "</button>" +
         "</div>" +
-        posRow(id, "x", "Move X", s.x, -400, 400) +
-        posRow(id, "y", "Move Y", s.y, -400, 400) +
+        posRow(id, "x", "Move X", s.x, 0, 1100) +
+        posRow(id, "y", "Move Y", s.y, 0, 520) +
         axisRow(id, "rotX", "Tilt X", s.rotX) +
         axisRow(id, "rotY", "Turn Y", s.rotY) +
         axisRow(id, "rotZ", "Spin Z", s.rotZ) +
@@ -732,7 +743,7 @@
     saveState();
   });
 
-  // Drag objects on the banner
+  // Drag objects on the banner (updates left/top in banner coords)
   (function enableDrag() {
     var drag = null;
     banner.addEventListener("pointerdown", function (e) {
@@ -743,19 +754,21 @@
       e.preventDefault();
       el.setPointerCapture(e.pointerId);
       el.classList.add("is-dragging");
+      var br = banner.getBoundingClientRect();
       drag = {
         id: id,
         el: el,
-        startX: e.clientX,
-        startY: e.clientY,
-        origX: state[id].x,
-        origY: state[id].y,
+        ox: e.clientX - br.left - state[id].x,
+        oy: e.clientY - br.top - state[id].y,
       };
     });
     banner.addEventListener("pointermove", function (e) {
       if (!drag) return;
-      state[drag.id].x = Math.round(drag.origX + (e.clientX - drag.startX));
-      state[drag.id].y = Math.round(drag.origY + (e.clientY - drag.startY));
+      var br = banner.getBoundingClientRect();
+      var nx = Math.round(e.clientX - br.left - drag.ox);
+      var ny = Math.round(e.clientY - br.top - drag.oy);
+      state[drag.id].x = Math.max(-40, Math.min(1120, nx));
+      state[drag.id].y = Math.max(-40, Math.min(560, ny));
       applyCast(drag.id);
       syncPosOutputs(drag.id);
     });
