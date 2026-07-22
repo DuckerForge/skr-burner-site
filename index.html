@@ -7,7 +7,6 @@
   <meta name="description" content="SKR Burner is a non-custodial Solana Seeker app: burn SKR tokens, earn Fire Points, play Flag Wars &amp; Daily Fire Chests, climb the leaderboard and join weekly giveaways &amp; airdrop pools." />
   <meta name="theme-color" content="#ff6600" />
 
-  <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="SKR Burner - Burn. Earn. Climb." />
   <meta property="og:description" content="Burn SKR tokens on Solana Seeker, earn Fire Points, win weekly giveaways and airdrops. Non-custodial, on Solana Mainnet." />
@@ -21,31 +20,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+  <script type="module" src="assets/js/model-viewer.min.js"></script>
 </head>
 <body>
-  <!-- ambient background -->
+  <!-- ambient: canvas embers + CSS flame tongues -->
+  <canvas id="embers" aria-hidden="true"></canvas>
   <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-fire" aria-hidden="true"></div>
+  <div class="flames" aria-hidden="true">
+    <span class="flame flame--1"></span>
+    <span class="flame flame--2"></span>
+    <span class="flame flame--3"></span>
+    <span class="flame flame--4"></span>
+    <span class="flame flame--5"></span>
+    <span class="flame flame--6"></span>
+  </div>
   <div class="bg-glow bg-glow--1" aria-hidden="true"></div>
   <div class="bg-glow bg-glow--2" aria-hidden="true"></div>
 
-  <!-- NAV -->
+  <!-- NAV — short: Features · Play · Get the app -->
   <header class="nav" id="top">
     <a class="nav__brand" href="#top" aria-label="SKR Burner home">
       <img src="assets/logo.jpg" alt="SKR Burner logo" class="nav__logo" />
       <span class="nav__name">SKR&nbsp;Burner</span>
     </a>
-    <nav class="nav__links" aria-label="Primary">
+    <nav class="nav__links" id="nav-links" aria-label="Primary">
       <a href="#features" data-i18n="navFeatures">Features</a>
-      <a href="#flagwars" data-i18n="navFlag">Flag Wars</a>
-      <a href="#firechests" data-i18n="navChests">Fire Chests</a>
-      <a href="#screens" data-i18n="navScreens">Screens</a>
-      <a href="#how" data-i18n="navHow">How it works</a>
-      <a href="privacy.html" data-i18n="navPrivacy">Privacy</a>
-      <a href="terms.html" data-i18n="navTerms">Terms</a>
+      <a href="#play" data-i18n="navPlay">Play</a>
     </nav>
     <div class="lang" id="lang-switch" role="group" aria-label="Language"></div>
     <a class="btn btn--primary nav__cta" href="#download" data-i18n="navCta">Get the app</a>
+    <button class="nav__burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </header>
+  <div class="nav__drawer" id="nav-drawer" hidden>
+    <a href="#features" data-i18n="navFeatures">Features</a>
+    <a href="#play" data-i18n="navPlay">Play</a>
+    <a href="#screens" data-i18n="navScreens">Screens</a>
+    <a href="#how" data-i18n="navHow">How it works</a>
+    <a href="#download" class="nav__drawer-cta" data-i18n="navCta">Get the app</a>
+  </div>
+
+  <!-- REFERRAL BANNER (shown by JS when ?ref=CODE) -->
+  <div class="refbar" id="refbar" hidden>
+    <div class="refbar__inner">
+      <img src="assets/ico-app-fp.png" alt="" class="refbar__ico" width="40" height="40" />
+      <div class="refbar__txt">
+        <b data-i18n="refTitle">You've been invited!</b>
+        <span data-i18n="refBody">Install SKR Burner, open Profile and enter this code for bonus Fire Points:</span>
+      </div>
+      <button class="refbar__code" id="refbar-code" type="button" title="Copy">
+        <span id="refbar-code-txt">------</span>
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+      </button>
+      <span class="refbar__copied" id="refbar-copied" data-i18n="refCopied" hidden>Copied!</span>
+    </div>
+  </div>
 
   <main>
     <!-- HERO -->
@@ -62,7 +93,7 @@
         <p class="hero__sub" data-i18n="heroSub">
           A non-custodial burner for the Solana Mobile Seeker. Torch your SKR on-chain,
           rack up Fire Points, climb the global leaderboard and join weekly
-          giveaways, airdrop pools, Flag Wars &amp; Daily Fire Chests - all from your phone.
+          giveaways, airdrop pools, Flag Wars &amp; Daily Fire Chests — all from your phone.
         </p>
         <div class="hero__cta">
           <a class="btn btn--primary btn--lg" href="#download">
@@ -74,13 +105,12 @@
           </a>
         </div>
         <ul class="hero__trust">
-          <li data-i18n="trust1"><strong>Non-custodial</strong> - your keys, your burn</li>
+          <li data-i18n="trust1"><strong>Non-custodial</strong> — your keys, your burn</li>
           <li data-i18n="trust2"><strong>Solana Mainnet</strong></li>
           <li data-i18n="trust3"><strong>7 languages</strong></li>
         </ul>
       </div>
 
-      <!-- HERO: real Seeker phone screenshot -->
       <div class="hero__device reveal">
         <div class="phone phone--hero phone--shot">
           <div class="phone__notch"></div>
@@ -88,11 +118,17 @@
             <img src="screenshots/home.jpg" alt="SKR Burner home on Solana Seeker" class="shot" width="720" height="1602" />
           </div>
         </div>
+        <model-viewer class="hero__pet" src="assets/models/flame.glb"
+          alt="Flame pet — live 3D from the app" camera-controls disable-zoom disable-pan
+          auto-rotate auto-rotate-delay="0" rotation-per-second="24deg"
+          interaction-prompt="none" exposure="1.1" shadow-intensity="0"
+          loading="eager" reveal="auto"></model-viewer>
+        <span class="hero__pet-tag" data-i18n="heroPetTag">Live 3D — drag me</span>
         <div class="device-glow" aria-hidden="true"></div>
       </div>
     </section>
 
-    <!-- LOGO / TRUST STRIP -->
+    <!-- TRUST STRIP -->
     <section class="strip" aria-label="Highlights">
       <div class="strip__item"><b>v2.1.5</b><span data-i18n="stripLatest">Latest release</span></div>
       <div class="strip__item"><b data-i18n="stripOnchain">On-chain</b><span data-i18n="stripOnchainSub">Every burn verified</span></div>
@@ -100,115 +136,158 @@
       <div class="strip__item"><b data-i18n="stripWeekly">Weekly</b><span data-i18n="stripWeeklySub">Giveaways &amp; airdrops</span></div>
     </section>
 
-    <!-- FEATURES -->
+    <!-- FEATURES — bento, centered, real app icons -->
     <section class="section" id="features">
       <div class="section__head reveal">
         <span class="eyebrow" data-i18n="featEyebrow">Features</span>
         <h2 data-i18n="featTitle">Everything packed into one burner</h2>
-        <p data-i18n="featSub">Designed for the Solana Seeker - fast, native and rewarding.</p>
+        <p data-i18n="featSub">Designed for the Solana Seeker — fast, native and rewarding.</p>
       </div>
-      <div class="grid">
-        <article class="card reveal">
-          <div class="card__ico card__ico--img"><img src="assets/ico-burn.png" alt="" width="128" height="128" /></div>
+
+      <div class="bento">
+        <article class="fcard fcard--hero reveal">
+          <div class="fcard__ico"><img src="assets/ico-app-pickaxe.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featBurnTitle">Burn-to-Mine</h3>
           <p data-i18n="featBurnBody">Burn SKR in single or batch mining sessions. Every token torched is verified on-chain and instantly credited.</p>
         </article>
 
-        <article class="card reveal">
-          <div class="card__ico card__ico--img"><img src="assets/ico-flag.png" alt="" width="128" height="128" /></div>
+        <article class="fcard fcard--hero reveal">
+          <div class="fcard__ico"><img src="assets/ico-app-flag.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featFlagTitle">Flag Wars</h3>
-          <p data-i18n="featFlagBody">King-of-the-hill snipes: pay SOL + burn SKR, hold the flag to farm FP (boosted Mon &amp; Thu). Monday last holder takes the bag - 90% of each snipe fills the Flag pool.</p>
+          <p data-i18n="featFlagBody">King-of-the-hill snipes: pay SOL + burn SKR, hold the flag to farm FP. Monday last holder takes the bag.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico card__ico--img"><img src="assets/ico-chest.png" alt="" width="128" height="128" /></div>
+
+        <article class="fcard fcard--hero fcard--chest reveal">
+          <div class="fcard__ico fcard__ico--xl"><img src="assets/ico-app-chest.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featChestTitle">Daily Fire Chests</h3>
-          <p data-i18n="featChestBody">Three mystery chests a day. Open 3 per board, then pay SKR to refresh (max 5). FP from chests counts toward Airdrop Pt.2.</p>
+          <p data-i18n="featChestBody">Three mystery chests a day. Open 3 per board, then pay SKR to refresh (max 5). Chest FP counts toward Airdrop Pt.2.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico card__ico--img"><img src="assets/ico-fp.png" alt="" width="128" height="128" /></div>
+
+        <article class="fcard fcard--hero reveal">
+          <div class="fcard__ico"><img src="assets/ico-app-fp.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featFpTitle">Fire Points</h3>
           <p data-i18n="featFpBody">Earn FP for every burn, daily check-in and milestone. Your points fuel your rank and your share of the pools.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico">🎁</div>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-money.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featGiveTitle">Weekly Giveaways</h3>
-          <p data-i18n="featGiveBody">A live SOL giveaway pool that grows every week. Burn to qualify and get notified the moment a new week starts.</p>
+          <p data-i18n="featGiveBody">A live SOL pool that grows every week. Burn to qualify.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico">🪂</div>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-vault.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featAirTitle">Airdrop Pool PT.2</h3>
-          <p data-i18n="featAirBody">A second rewards pool feeding airdrops back to active burners. Milestone alerts at every 0.5 SOL.</p>
+          <p data-i18n="featAirBody">Second rewards vault. Milestone alerts every 0.5 SOL.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico">🏆</div>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-cup.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featLbTitle">Global Leaderboard</h3>
-          <p data-i18n="featLbBody">🥇🥈🥉 for the top burners, ranked badges for everyone else. Climb in real time as you burn.</p>
+          <p data-i18n="featLbBody">Top 3 get medals, everyone else ranked badges. Climb live.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico card__ico--img"><img src="assets/ico-nft.png" alt="" width="128" height="128" /></div>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-nft.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featNftTitle">NFT Mints</h3>
-          <p data-i18n="featNftBody">Mint reward NFTs straight from the app and watch the live activity feed light up with every new mint.</p>
+          <p data-i18n="featNftBody">Mint reward NFTs from the app. Live activity feed.</p>
         </article>
-        <article class="card reveal">
-          <div class="card__ico">📅</div>
-          <h3 data-i18n="featCheckTitle">Daily Check-in</h3>
-          <p data-i18n="featCheckBody">Show up every day for a streak bonus. A reliable, retry-safe credit so your points never get lost.</p>
-        </article>
-        <article class="card reveal">
-          <div class="card__ico">🔔</div>
-          <h3 data-i18n="featNotifTitle">Smart Notifications</h3>
-          <p data-i18n="featNotifBody">Timezone-aware push for pool milestones, new weeks, mints and check-in reminders - never spammy.</p>
-        </article>
+      </div>
+
+      <div class="chiprow reveal" aria-label="More features">
+        <span class="chip"><img src="assets/check.png" alt="" /><b data-i18n="featCheckTitle">Daily Check-in</b></span>
+        <span class="chip"><img src="assets/medaglia.png" alt="" /><b data-i18n="featRankTitle">Ranked badges</b></span>
+        <span class="chip"><img src="assets/ico-app-spark.png" alt="" class="chip__spark" /><b data-i18n="featNotifTitle">Smart Notifications</b></span>
+        <span class="chip"><span class="chip__emoji">🌍</span><b data-i18n="featLangTitle">7 languages</b></span>
       </div>
     </section>
 
-
-    <!-- FLAG WARS SHOWCASE -->
-    <section class="section section--flag" id="flagwars">
+    <!-- PLAY: FLAG WARS -->
+    <section class="section section--flag" id="play">
       <div class="flagwars reveal">
         <div class="flagwars__art">
-          <img src="assets/flagbearer.png" alt="Flag Bearer" data-i18n-attr="alt:flagAlt" class="flagwars__img" width="512" height="512" />
+          <model-viewer class="mv mv--flag" src="assets/models/flagbearer.glb"
+            alt="Flag Bearer — live 3D from the app" camera-controls disable-zoom disable-pan
+            auto-rotate auto-rotate-delay="0" rotation-per-second="20deg"
+            interaction-prompt="none" exposure="1.15" shadow-intensity="0"
+            loading="lazy" reveal="auto"></model-viewer>
+          <span class="mv__tag" data-i18n="mvTag">Live 3D — drag to spin</span>
           <div class="flagwars__glow" aria-hidden="true"></div>
         </div>
         <div class="flagwars__copy">
           <span class="eyebrow" data-i18n="flagEyebrow">Flag Wars</span>
           <h2 data-i18n="flagTitle">Snipe. Hold. Farm FP.</h2>
-          <p data-i18n="flagBody">Pay SOL + burn SKR to steal the flag. Hold it to farm Fire Points every hour, boosted on Monday &amp; Thursday. Last holder at Monday reset takes the Flag bag. 90% of every snipe grows the pool, 10% keeps the lights on.</p>
+          <p data-i18n="flagBody">Pay SOL + burn SKR to steal the flag. Hold it to farm Fire Points every hour, boosted on Monday &amp; Thursday. Last holder at Monday reset takes the Flag bag. 90% of every snipe grows the pool.</p>
           <a class="btn btn--primary" href="#download" data-i18n="navCta">Get the app</a>
         </div>
       </div>
     </section>
 
-    <!-- DAILY FIRE CHESTS SHOWCASE -->
+    <!-- PLAY: DAILY FIRE CHESTS -->
     <section class="section section--chests" id="firechests">
       <div class="firechests reveal">
-        <div class="firechests__art">
-          <div class="firechests__rays" aria-hidden="true"></div>
-          <img src="assets/fire-chests.png" alt="Daily Fire Chests" data-i18n-attr="alt:chestAlt" class="firechests__img" width="640" height="360" />
-          <div class="firechests__glow" aria-hidden="true"></div>
-        </div>
         <div class="firechests__copy">
           <span class="eyebrow" data-i18n="chestEyebrow">Daily Fire Chests</span>
           <h2 data-i18n="chestTitle">Pick. Open. Climb FP.</h2>
-          <p data-i18n="chestBody">Three mystery chests each day. Open 3 on a board (opened stay open). Pay SKR to refresh for 3 more opens, up to 5 paid refreshes. Chest FP feeds your rank toward Airdrop Pt.2.</p>
+          <p data-i18n="chestBody">Three mystery chests each day. Open 3 on a board. Pay SKR to refresh for 3 more opens, up to 5 paid refreshes. Chest FP feeds your rank toward Airdrop Pt.2.</p>
           <a class="btn btn--primary" href="#download" data-i18n="navCta">Get the app</a>
+        </div>
+        <div class="firechests__art">
+          <div class="firechests__rays" aria-hidden="true"></div>
+          <model-viewer class="mv mv--chest" src="assets/models/chest.glb"
+            alt="Daily Fire Chest — live 3D from the app" camera-controls disable-zoom disable-pan
+            auto-rotate auto-rotate-delay="0" rotation-per-second="18deg"
+            animation-name="Open_Chest" autoplay
+            interaction-prompt="none" exposure="1.15" shadow-intensity="0"
+            loading="lazy" reveal="auto"></model-viewer>
+          <span class="mv__tag" data-i18n="mvTag">Live 3D — drag to spin</span>
+          <div class="firechests__glow" aria-hidden="true"></div>
         </div>
       </div>
     </section>
 
-    <!-- SCREENS: real Seeker captures + app art -->
+    <!-- POOLS -->
+    <section class="section section--pools" id="pools">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="poolsEyebrow">Reward pools</span>
+        <h2 data-i18n="poolsTitle">Two pools. Real SOL.</h2>
+        <p data-i18n="poolsSub">Every burn and every snipe feeds the pools — and the pools feed you back.</p>
+      </div>
+      <div class="pools">
+        <div class="poolcard reveal">
+          <model-viewer class="mv mv--pool" src="assets/models/money.glb"
+            alt="Weekly Giveaway pool — live 3D" camera-controls disable-zoom disable-pan
+            auto-rotate auto-rotate-delay="0" rotation-per-second="22deg"
+            interaction-prompt="none" exposure="1.1" shadow-intensity="0"
+            loading="lazy" reveal="auto"></model-viewer>
+          <h3 data-i18n="poolWeeklyTitle">Weekly Giveaway</h3>
+          <p data-i18n="poolWeeklyBody">A live SOL pool that grows all week. Burn SKR to qualify — winners drawn every Monday.</p>
+        </div>
+        <div class="poolcard reveal">
+          <model-viewer class="mv mv--pool" src="assets/models/vault.glb"
+            alt="Airdrop Pt.2 vault — live 3D" camera-controls disable-zoom disable-pan
+            auto-rotate auto-rotate-delay="0" rotation-per-second="22deg"
+            interaction-prompt="none" exposure="1.1" shadow-intensity="0"
+            loading="lazy" reveal="auto"></model-viewer>
+          <h3 data-i18n="poolAirTitle">Airdrop Pool PT.2</h3>
+          <p data-i18n="poolAirBody">The vault fills with every 0.5 SOL milestone. Chest FP and burns push your rank toward the airdrop.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREENS -->
     <section class="section section--screens" id="screens">
       <div class="section__head reveal">
         <span class="eyebrow" data-i18n="screensEyebrow">Screens</span>
         <h2 data-i18n="screensTitle">A look inside the app</h2>
-        <p data-i18n="screensSub">Native Solana Seeker UI - dark, fast and built around the burn.</p>
+        <p data-i18n="screensSub">Native Solana Seeker UI — dark, fast and built around the burn.</p>
       </div>
 
       <div class="screens">
         <figure class="phone phone--shot reveal">
           <div class="phone__notch"></div>
           <div class="phone__screen phone__screen--shot">
-            <img src="screenshots/home.jpg" alt="SKR Burner home" class="shot" width="720" height="1602" />
+            <img src="screenshots/home.jpg" alt="SKR Burner home" class="shot" width="720" height="1602" loading="lazy" />
           </div>
           <figcaption data-i18n="capHome">Home</figcaption>
         </figure>
@@ -216,7 +295,7 @@
         <figure class="phone phone--shot reveal phone--center">
           <div class="phone__notch"></div>
           <div class="phone__screen phone__screen--shot">
-            <img src="screenshots/play.jpg" alt="Play hub: Flag Wars, Fire Chests, Inferno Stack" class="shot" width="720" height="1602" />
+            <img src="screenshots/play.jpg" alt="Play hub: Flag Wars, Fire Chests, Inferno Stack" class="shot" width="720" height="1602" loading="lazy" />
           </div>
           <figcaption data-i18n="capPlay">Play hub</figcaption>
         </figure>
@@ -224,7 +303,7 @@
         <figure class="phone phone--shot reveal">
           <div class="phone__notch"></div>
           <div class="phone__screen phone__screen--shot">
-            <img src="screenshots/fire-chests.jpg" alt="Daily Fire Chests" class="shot" width="720" height="1602" />
+            <img src="screenshots/fire-chests.jpg" alt="Daily Fire Chests" class="shot" width="720" height="1602" loading="lazy" />
           </div>
           <figcaption data-i18n="capChests">Daily Fire Chests</figcaption>
         </figure>
@@ -232,7 +311,7 @@
         <figure class="phone phone--shot reveal phone--art">
           <div class="phone__notch"></div>
           <div class="phone__screen phone__screen--art">
-            <img src="assets/flagbearer.png" alt="Flag Bearer" class="shot shot--art" width="611" height="952" />
+            <img src="assets/flagbearer.png" alt="Flag Bearer" class="shot shot--art" width="611" height="952" loading="lazy" />
             <span class="shot__label">Flag Wars</span>
           </div>
           <figcaption data-i18n="capFlag">Flag Bearer</figcaption>
@@ -241,16 +320,12 @@
         <figure class="phone phone--shot reveal phone--art">
           <div class="phone__notch"></div>
           <div class="phone__screen phone__screen--art">
-            <img src="assets/nft-high.png" alt="High-tier burn NFT" class="shot shot--art" width="300" height="450" />
+            <img src="assets/nft-high.png" alt="High-tier burn NFT" class="shot shot--art" width="300" height="450" loading="lazy" />
             <span class="shot__label">NFT Mint</span>
           </div>
           <figcaption data-i18n="capNft">NFT rewards</figcaption>
         </figure>
       </div>
-
-      <p class="screens__note" data-i18n-html="screensNote">
-        Real Seeker captures for Home, Play &amp; Fire Chests. Flag Bearer &amp; NFT art from the shipped app assets.
-      </p>
     </section>
 
     <!-- HOW IT WORKS -->
@@ -263,7 +338,7 @@
         <li class="step reveal">
           <span class="step__n">1</span>
           <h3 data-i18n="how1Title">Connect your wallet</h3>
-          <p data-i18n="how1Body">Open SKR Burner on your Seeker and connect with Mobile Wallet Adapter. Non-custodial - nothing leaves your control.</p>
+          <p data-i18n="how1Body">Open SKR Burner on your Seeker and connect with Mobile Wallet Adapter. Non-custodial — nothing leaves your control.</p>
         </li>
         <li class="step reveal">
           <span class="step__n">2</span>
@@ -281,6 +356,7 @@
     <!-- DOWNLOAD CTA -->
     <section class="cta" id="download">
       <div class="cta__inner reveal">
+        <div class="cta__flames" aria-hidden="true"></div>
         <img src="assets/logo.jpg" alt="SKR Burner" class="cta__logo" />
         <p class="cta__ver">v2.1.5</p>
         <h2 data-i18n="ctaTitle">Ready to start burning?</h2>
@@ -291,19 +367,14 @@
           <a class="btn btn--primary btn--lg" href="https://store.solanamobile.com/" rel="noopener" target="_blank">
             <span data-i18n="ctaStore">🔥 Get it on Solana Seeker</span>
           </a>
-          <a class="btn btn--ghost btn--lg" href="privacy.html" data-i18n="ctaPrivacy">
-            Privacy Policy
-          </a>
-          <a class="btn btn--ghost btn--lg" href="terms.html" data-i18n="ctaTerms">
-            Terms of Service
-          </a>
+          <a class="btn btn--ghost btn--lg" href="privacy.html" data-i18n="ctaPrivacy">Privacy Policy</a>
+          <a class="btn btn--ghost btn--lg" href="terms.html" data-i18n="ctaTerms">Terms of Service</a>
         </div>
         <p class="cta__fine">com.duckerforge.skrburn · v2.1.5 · Solana Mainnet · Non-custodial</p>
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer__brand">
       <img src="assets/logo.jpg" alt="" class="footer__logo" />

@@ -13,6 +13,21 @@
 
   var T = {
     en: {
+      refCopied: 'Copied!',
+      refBody: 'Install SKR Burner, open Profile and enter this code for bonus Fire Points:',
+      refTitle: 'You\'ve been invited!',
+      mvTag: 'Live 3D — drag to spin',
+      poolAirBody: 'The vault fills with every 0.5 SOL milestone. Chest FP and burns push your rank toward the airdrop.',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: 'A live SOL pool that grows all week. Burn SKR to qualify — winners drawn every Monday.',
+      poolWeeklyTitle: 'Weekly Giveaway',
+      poolsSub: 'Every burn and every snipe feeds the pools — and the pools feed you back.',
+      poolsTitle: 'Two pools. Real SOL.',
+      poolsEyebrow: 'Reward pools',
+      featLangTitle: '7 languages',
+      featRankTitle: 'Ranked badges',
+      heroPetTag: 'Live 3D — drag me',
+      navPlay: 'Play',
       docTitle: "SKR Burner - Burn SKR, earn Fire Points on Solana Seeker",
       docDesc: "SKR Burner is a non-custodial Solana Seeker app: burn SKR, earn Fire Points, play Flag Wars & Daily Fire Chests, climb the leaderboard and join weekly giveaways & airdrop pools.",
       navFeatures: "Features",
@@ -44,19 +59,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "Burn SKR in single or batch mining sessions. Every token torched is verified on-chain and instantly credited.",
       featFlagTitle: "Flag Wars",
-      featFlagBody: "King-of-the-hill snipes: pay SOL + burn SKR, hold the flag to farm FP (boosted Mon & Thu). Monday last holder takes the bag, 90% of each snipe fills the Flag pool.",
+      featFlagBody: 'King-of-the-hill snipes: pay SOL + burn SKR, hold the flag to farm FP. Monday last holder takes the bag.',
       featChestTitle: "Daily Fire Chests",
-      featChestBody: "Three mystery chests a day. Open 3 per board, then pay SKR to refresh (max 5). FP from chests counts toward Airdrop Pt.2.",
+      featChestBody: 'Three mystery chests a day. Open 3 per board, then pay SKR to refresh (max 5). Chest FP counts toward Airdrop Pt.2.',
       featFpTitle: "Fire Points",
       featFpBody: "Earn FP for every burn, daily check-in and milestone. Your points fuel your rank and your share of the pools.",
       featGiveTitle: "Weekly Giveaways",
-      featGiveBody: "A live SOL giveaway pool that grows every week. Burn to qualify and get notified the moment a new week starts.",
+      featGiveBody: 'A live SOL pool that grows every week. Burn to qualify.',
       featAirTitle: "Airdrop Pool PT.2",
-      featAirBody: "A second rewards pool feeding airdrops back to active burners. Milestone alerts at every 0.5 SOL.",
+      featAirBody: 'Second rewards vault. Milestone alerts every 0.5 SOL.',
       featLbTitle: "Global Leaderboard",
-      featLbBody: "🥇🥈🥉 for the top burners, ranked badges for everyone else. Climb in real time as you burn.",
+      featLbBody: 'Top 3 get medals, everyone else ranked badges. Climb live.',
       featNftTitle: "NFT Mints",
-      featNftBody: "Mint reward NFTs straight from the app and watch the live activity feed light up with every new mint.",
+      featNftBody: 'Mint reward NFTs from the app. Live activity feed.',
       featCheckTitle: "Daily Check-in",
       featCheckBody: "Show up every day for a streak bonus. A reliable, retry-safe credit so your points never get lost.",
       featNotifTitle: "Smart Notifications",
@@ -101,6 +116,21 @@
       langLabel: "Language",
     },
     fr: {
+      refCopied: 'Copie !',
+      refBody: 'Installe SKR Burner, ouvre le Profil et entre ce code pour des Fire Points bonus :',
+      refTitle: 'Tu as ete invite !',
+      mvTag: '3D live — glisse pour tourner',
+      poolAirBody: 'Le vault se remplit a chaque milestone de 0.5 SOL. Les FP des coffres et burns poussent ton rang.',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: 'Un pool SOL live qui grandit toute la semaine. Brule du SKR pour te qualifier — tirage chaque lundi.',
+      poolWeeklyTitle: 'Giveaway hebdo',
+      poolsSub: 'Chaque burn et chaque snipe alimentent les pools — et les pools te nourrissent.',
+      poolsTitle: 'Deux pools. Du vrai SOL.',
+      poolsEyebrow: 'Pools de recompenses',
+      featLangTitle: '7 langues',
+      featRankTitle: 'Badges classes',
+      heroPetTag: '3D live — glisse-moi',
+      navPlay: 'Jouer',
       docTitle: "SKR Burner - Brûle du SKR, gagne des Fire Points sur Solana Seeker",
       docDesc: "SKR Burner est une app non-custodiale pour Solana Seeker : brûle du SKR, gagne des Fire Points, joue à Flag Wars & Daily Fire Chests, grimpe le classement et rejoins les giveaways & pools d’airdrop.",
       navFeatures: "Fonctionnalités",
@@ -132,19 +162,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "Brûle du SKR en session unique ou en mining par lots. Chaque token est vérifié on-chain et crédité aussitôt.",
       featFlagTitle: "Flag Wars",
-      featFlagBody: "Snipes king-of-the-hill : paie du SOL + brûle du SKR, garde le drapeau pour farmer des FP (boost lun & jeu). Le dernier holder le lundi prend le pot, 90 % de chaque snipe alimente le Flag pool.",
+      featFlagBody: 'Snipes king-of-the-hill : paie du SOL + brule du SKR, tiens le drapeau pour farmer des FP. Le dernier lundi empoche le pot.',
       featChestTitle: "Daily Fire Chests",
-      featChestBody: "Trois coffres mystère par jour. 3 ouvertures par plateau, puis paie du SKR pour rafraîchir (max 5). Les FP des coffres comptent pour Airdrop Pt.2.",
+      featChestBody: 'Trois coffres mystere par jour. Ouvre 3 par plateau, puis paie du SKR pour rafraichir (max 5). Les FP des coffres comptent pour Airdrop Pt.2.',
       featFpTitle: "Fire Points",
       featFpBody: "Gagne des FP à chaque burn, check-in et milestone. Tes points nourrissent ton rang et ta part des pools.",
       featGiveTitle: "Giveaways hebdo",
-      featGiveBody: "Un pool SOL live qui grandit chaque semaine. Brûle pour être éligible et sois notifié au démarrage de la semaine.",
+      featGiveBody: 'Un pool SOL live qui grandit chaque semaine. Brule pour te qualifier.',
       featAirTitle: "Airdrop Pool PT.2",
-      featAirBody: "Un second pool qui redistribue des airdrops aux burners actifs. Alertes à chaque 0,5 SOL.",
+      featAirBody: 'Deuxieme vault de recompenses. Alertes a chaque 0.5 SOL.',
       featLbTitle: "Classement mondial",
-      featLbBody: "🥇🥈🥉 pour le top, badges classés pour les autres. Monte en temps réel à chaque burn.",
+      featLbBody: 'Top 3 medailles, badges classes pour les autres. Monte en direct.',
       featNftTitle: "Mints NFT",
-      featNftBody: "Mint des NFT de récompense depuis l’app et regarde le feed d’activité s’allumer.",
+      featNftBody: 'Mint des NFT de recompense depuis l\'app. Feed d\'activite live.',
       featCheckTitle: "Check-in quotidien",
       featCheckBody: "Reviens chaque jour pour un bonus de série. Crédit fiable, sans perte de points.",
       featNotifTitle: "Notifications smart",
@@ -189,6 +219,21 @@
       langLabel: "Langue",
     },
     de: {
+      refCopied: 'Kopiert!',
+      refBody: 'Installiere SKR Burner, offne dein Profil und gib diesen Code fur Bonus-Fire-Points ein:',
+      refTitle: 'Du wurdest eingeladen!',
+      mvTag: 'Live 3D — ziehen zum Drehen',
+      poolAirBody: 'Der Vault fullt sich bei jedem 0.5-SOL-Meilenstein. Truhen-FP und Burns pushen deinen Rang.',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: 'Ein live SOL-Pool die ganze Woche. SKR burnen zum Qualifizieren — Ziehung jeden Montag.',
+      poolWeeklyTitle: 'Wochentliches Giveaway',
+      poolsSub: 'Jeder Burn und jeder Snipe speist die Pools — und die Pools speisen dich.',
+      poolsTitle: 'Zwei Pools. Echtes SOL.',
+      poolsEyebrow: 'Reward-Pools',
+      featLangTitle: '7 Sprachen',
+      featRankTitle: 'Rang-Badges',
+      heroPetTag: 'Live 3D — zieh mich',
+      navPlay: 'Spielen',
       docTitle: "SKR Burner - SKR brennen, Fire Points auf Solana Seeker verdienen",
       docDesc: "SKR Burner ist eine non-custodial Solana-Seeker-App: SKR brennen, Fire Points verdienen, Flag Wars & Daily Fire Chests spielen, Leaderboard klettern und an Weekly Giveaways & Airdrop-Pools teilnehmen.",
       navFeatures: "Features",
@@ -220,19 +265,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "SKR einzeln oder im Batch-Mining brennen. Jeder Token wird on-chain verifiziert und sofort gutgeschrieben.",
       featFlagTitle: "Flag Wars",
-      featFlagBody: "King-of-the-Hill-Snipes: SOL zahlen + SKR brennen, Flagge halten und FP farmen (Boost Mo & Do). Montag nimmt der letzte Holder den Pot, 90 % jedes Snipes füllt den Flag-Pool.",
+      featFlagBody: 'King-of-the-Hill-Snipes: zahle SOL + verbrenne SKR, halte die Flagge fur FP. Montags holt der letzte Halter den Topf.',
       featChestTitle: "Daily Fire Chests",
-      featChestBody: "Drei Mystery-Chests pro Tag. 3 Öffnungen pro Board, dann SKR zahlen zum Refresh (max 5). Chest-FP zählt für Airdrop Pt.2.",
+      featChestBody: 'Drei Mystery-Truhen am Tag. Offne 3 pro Board, dann SKR fur Refresh (max 5). Truhen-FP zahlen fur Airdrop Pt.2.',
       featFpTitle: "Fire Points",
       featFpBody: "FP für jeden Burn, Check-in und Meilenstein. Deine Punkte treiben Rang und Pool-Anteil.",
       featGiveTitle: "Weekly Giveaways",
-      featGiveBody: "Ein live SOL-Pool, der jede Woche wächst. Brennen für Quali - Push beim Wochenstart.",
+      featGiveBody: 'Ein live SOL-Pool, der jede Woche wachst. Burnen zum Qualifizieren.',
       featAirTitle: "Airdrop Pool PT.2",
-      featAirBody: "Zweiter Belohnungspool für aktive Burner. Alerts alle 0,5 SOL.",
+      featAirBody: 'Zweiter Rewards-Vault. Meilenstein-Alerts alle 0.5 SOL.',
       featLbTitle: "Globales Leaderboard",
-      featLbBody: "🥇🥈🥉 für die Top-Burner, Rang-Badges für alle anderen. Echtzeit-Aufstieg.",
+      featLbBody: 'Top 3 mit Medaillen, Rang-Badges fur alle anderen. Live klettern.',
       featNftTitle: "NFT-Mints",
-      featNftBody: "Reward-NFTs direkt in der App minten und den Live-Feed beobachten.",
+      featNftBody: 'Mint Reward-NFTs aus der App. Live Activity-Feed.',
       featCheckTitle: "Täglicher Check-in",
       featCheckBody: "Jeden Tag für Streak-Bonus erscheinen. Zuverlässige Gutschrift ohne Punktverlust.",
       featNotifTitle: "Smart Notifications",
@@ -277,6 +322,21 @@
       langLabel: "Sprache",
     },
     es: {
+      refCopied: 'Copiado!',
+      refBody: 'Instala SKR Burner, abre tu Perfil e introduce este codigo para Fire Points extra:',
+      refTitle: 'Te han invitado!',
+      mvTag: '3D en vivo — arrastra para girar',
+      poolAirBody: 'El vault se llena con cada hito de 0.5 SOL. FP de cofres y burns impulsan tu rango.',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: 'Un pool SOL en vivo toda la semana. Quema SKR para clasificar — sorteo cada lunes.',
+      poolWeeklyTitle: 'Giveaway semanal',
+      poolsSub: 'Cada burn y cada snipe alimentan los pools — y los pools te alimentan a ti.',
+      poolsTitle: 'Dos pools. SOL real.',
+      poolsEyebrow: 'Pools de recompensas',
+      featLangTitle: '7 idiomas',
+      featRankTitle: 'Insignias de rango',
+      heroPetTag: '3D en vivo — arrastrame',
+      navPlay: 'Jugar',
       docTitle: "SKR Burner - Quema SKR, gana Fire Points en Solana Seeker",
       docDesc: "SKR Burner es una app non-custodial para Solana Seeker: quema SKR, gana Fire Points, juega Flag Wars y Daily Fire Chests, sube en el ranking y únete a sorteos semanales y pools de airdrop.",
       navFeatures: "Funciones",
@@ -308,19 +368,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "Quema SKR en sesión única o mining por lotes. Cada token se verifica on-chain y se acredita al instante.",
       featFlagTitle: "Flag Wars",
-      featFlagBody: "Snipes king-of-the-hill: paga SOL + quema SKR, mantén la bandera para farmear FP (boost lun y jue). El último holder del lunes se lleva el bote, 90 % de cada snipe llena el Flag pool.",
+      featFlagBody: 'Snipes king-of-the-hill: paga SOL + quema SKR, mantén la bandera para farmear FP. El lunes el ultimo se lleva el bote.',
       featChestTitle: "Daily Fire Chests",
-      featChestBody: "Tres cofres misteriosos al día. 3 aperturas por tablero, luego paga SKR para refrescar (máx. 5). El FP de los cofres cuenta para Airdrop Pt.2.",
+      featChestBody: 'Tres cofres misteriosos al dia. Abre 3 por tablero, luego paga SKR para refrescar (max 5). Los FP de cofres cuentan para Airdrop Pt.2.',
       featFpTitle: "Fire Points",
       featFpBody: "Gana FP por cada quema, check-in y hito. Tus puntos impulsan tu rango y tu parte de los pools.",
       featGiveTitle: "Sorteos semanales",
-      featGiveBody: "Un pool SOL en vivo que crece cada semana. Quema para calificar y recibe aviso al iniciar la semana.",
+      featGiveBody: 'Un pool SOL en vivo que crece cada semana. Quema para clasificar.',
       featAirTitle: "Airdrop Pool PT.2",
-      featAirBody: "Segundo pool de recompensas para burners activos. Alertas cada 0,5 SOL.",
+      featAirBody: 'Segundo vault de recompensas. Alertas cada 0.5 SOL.',
       featLbTitle: "Ranking global",
-      featLbBody: "🥇🥈🥉 para el top, badges de rango para el resto. Sube en tiempo real.",
+      featLbBody: 'Top 3 con medallas, insignias para el resto. Sube en vivo.',
       featNftTitle: "Mints NFT",
-      featNftBody: "Mintea NFTs de recompensa desde la app y mira el feed de actividad.",
+      featNftBody: 'Mintea NFTs de recompensa desde la app. Feed de actividad en vivo.',
       featCheckTitle: "Check-in diario",
       featCheckBody: "Vuelve cada día por bonus de racha. Crédito fiable sin perder puntos.",
       featNotifTitle: "Notificaciones smart",
@@ -365,6 +425,21 @@
       langLabel: "Idioma",
     },
     zh: {
+      refCopied: '已复制！',
+      refBody: '安装 SKR Burner，打开个人资料输入此代码领取奖励 Fire Points：',
+      refTitle: '你被邀请了！',
+      mvTag: '实时 3D — 拖动旋转',
+      poolAirBody: '金库每 0.5 SOL 里程碑填充。宝箱 FP 与燃烧提升你的排名。',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: '整周增长的实时 SOL 池。燃烧 SKR 参赛 — 每周一开奖。',
+      poolWeeklyTitle: '每周赠礼',
+      poolsSub: '每次燃烧与抢旗都注入奖池 — 奖池回馈给你。',
+      poolsTitle: '双池。真 SOL。',
+      poolsEyebrow: '奖励池',
+      featLangTitle: '7 种语言',
+      featRankTitle: '排名徽章',
+      heroPetTag: '实时 3D — 拖动我',
+      navPlay: '玩法',
       docTitle: "SKR Burner - 在 Solana Seeker 上销毁 SKR，赚取 Fire Points",
       docDesc: "SKR Burner 是面向 Solana Seeker 的非托管应用：销毁 SKR、赚取 Fire Points、玩 Flag Wars 与 Daily Fire Chests、冲榜并参与每周抽奖与空投池。",
       navFeatures: "功能",
@@ -396,19 +471,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "单次或批量挖矿销毁 SKR。每枚代币链上验证并即时入账。",
       featFlagTitle: "Flag Wars 夺旗",
-      featFlagBody: "占山为王：付 SOL + 销毁 SKR 抢旗，持旗刷 FP（周一/周四加成）。周一最后持有者拿走奖池, 每次抢旗 90% 进入夺旗池。",
+      featFlagBody: '抢旗对战：支付 SOL + 燃烧 SKR，持旗刷 FP。周一最后持有者拿走奖池。',
       featChestTitle: "每日火焰宝箱",
-      featChestBody: "每天三个神秘宝箱。每组开 3 次，再付 SKR 刷新（最多 5 次）。宝箱 FP 计入空投 Pt.2。",
+      featChestBody: '每日三只神秘宝箱。每局开 3 个，可用 SKR 刷新（最多 5 次）。宝箱 FP 计入 Airdrop Pt.2。',
       featFpTitle: "Fire Points",
       featFpBody: "销毁、签到与里程碑均可赚 FP。积分决定排名与奖池份额。",
       featGiveTitle: "每周抽奖",
-      featGiveBody: "实时 SOL 奖池每周增长。销毁即可参与，新周开始推送提醒。",
+      featGiveBody: '每周增长的实时 SOL 奖池。燃烧即可参赛。',
       featAirTitle: "空投池 PT.2",
-      featAirBody: "第二个奖励池回馈活跃销毁者。每 0.5 SOL 里程碑提醒。",
+      featAirBody: '第二个奖励金库。每 0.5 SOL 里程碑提醒。',
       featLbTitle: "全球排行榜",
-      featLbBody: "🥇🥈🥉 前三，其余橙标排名。销毁即实时上升。",
+      featLbBody: '前三名奖牌，其余排名徽章。实时攀升。',
       featNftTitle: "NFT 铸造",
-      featNftBody: "应用内铸造奖励 NFT，活动动态实时更新。",
+      featNftBody: '在应用内铸造奖励 NFT。实时动态流。',
       featCheckTitle: "每日签到",
       featCheckBody: "每天签到拿连胜奖励。可靠入账，积分不丢。",
       featNotifTitle: "智能通知",
@@ -453,6 +528,21 @@
       langLabel: "语言",
     },
     ja: {
+      refCopied: 'コピーしました！',
+      refBody: 'SKR Burnerをインストールし、プロフィールでこのコードを入力してボーナスFire Pointsをゲット：',
+      refTitle: '招待されました！',
+      mvTag: 'ライブ3D — ドラッグで回転',
+      poolAirBody: '0.5 SOLマイルストーンごとにボルトが満たされる。チェストFPとバーンでランク上昇。',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: '一週間育つライブSOLプール。SKRバーンで参加 — 月曜抽選。',
+      poolWeeklyTitle: '週間ギブアウェイ',
+      poolsSub: 'バーンもスナイプもプールを満たし — プールがあなたに戻る。',
+      poolsTitle: '2つのプール。本物のSOL。',
+      poolsEyebrow: '報酬プール',
+      featLangTitle: '7言語',
+      featRankTitle: 'ランクバッジ',
+      heroPetTag: 'ライブ3D — ドラッグしてね',
+      navPlay: 'プレイ',
       docTitle: "SKR Burner - Solana Seeker で SKR をバーンし Fire Points を獲得",
       docDesc: "SKR Burner は Solana Seeker 向けノンカストディアルアプリ。SKR バーン、Fire Points、Flag Wars & Daily Fire Chests、リーダーボード、週間ギブアウェイ＆エアドロップ。",
       navFeatures: "機能",
@@ -484,19 +574,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "単発またはバッチマイニングで SKR をバーン。すべてオンチェーン検証・即時反映。",
       featFlagTitle: "Flag Wars",
-      featFlagBody: "キング・オブ・ザ・ヒル：SOL 支払い + SKR バーンで旗を奪い、保持で FP を稼ぐ（月木ブースト）。月曜の最終ホルダーが袋を獲得, スナイプの 90% が Flag プールへ。",
+      featFlagBody: '旗取りスナイプ：SOL支払い＋SKRバーンで旗を保持しFP稼ぎ。月曜の最終保持者が袋を取る。',
       featChestTitle: "Daily Fire Chests",
-      featChestBody: "毎日3つのミステリーチェスト。ボードごとに3回オープン、SKR でリフレッシュ（最大5回）。チェスト FP は Airdrop Pt.2 に加算。",
+      featChestBody: '毎日ミステリーチェスト3つ。ボードで3つ開け、SKRでリフレッシュ（最大5）。チェストFPはAirdrop Pt.2に加算。',
       featFpTitle: "Fire Points",
       featFpBody: "バーン・チェックイン・マイルストーンで FP。ランクとプール配分に反映。",
       featGiveTitle: "週間ギブアウェイ",
-      featGiveBody: "毎週増えるライブ SOL プール。バーンで参加資格、週開始をプッシュ通知。",
+      featGiveBody: '毎週育つライブSOLプール。バーンで参加資格。',
       featAirTitle: "エアドロップ Pool PT.2",
-      featAirBody: "アクティブバーナー向け第2報酬プール。0.5 SOL ごとにアラート。",
+      featAirBody: '第2の報酬ボルト。0.5 SOLごとのマイルストーン通知。',
       featLbTitle: "グローバルリーダーボード",
-      featLbBody: "🥇🥈🥉 は上位、他はランクバッジ。バーンするたびリアルタイム上昇。",
+      featLbBody: 'トップ3はメダル、他はランクバッジ。リアルタイムで上昇。',
       featNftTitle: "NFT ミント",
-      featNftBody: "アプリから報酬 NFT をミント。アクティビティフィードが更新。",
+      featNftBody: 'アプリから報酬NFTをミント。ライブ活動フィード。',
       featCheckTitle: "デイリーチェックイン",
       featCheckBody: "毎日チェックインでストリークボーナス。確実な付与、ポイント消失なし。",
       featNotifTitle: "スマート通知",
@@ -541,6 +631,21 @@
       langLabel: "言語",
     },
     ko: {
+      refCopied: '복사됨!',
+      refBody: 'SKR Burner를 설치하고 프로필에서 이 코드를 입력해 보너스 Fire Points를 받으세요:',
+      refTitle: '초대받았습니다!',
+      mvTag: '라이브 3D — 드래그로 회전',
+      poolAirBody: '0.5 SOL 마일스톤마다 볼트가 채워집니다. 상자 FP와 번이 순위를 올립니다.',
+      poolAirTitle: 'Airdrop Pool PT.2',
+      poolWeeklyBody: '일주일 내내 커지는 라이브 SOL 풀. SKR 번으로 참가 — 매주 월요일 추첨.',
+      poolWeeklyTitle: '주간 기브어웨이',
+      poolsSub: '모든 번과 스나이프가 풀을 채우고 — 풀이 다시 당신에게 돌아옵니다.',
+      poolsTitle: '두 개의 풀. 진짜 SOL.',
+      poolsEyebrow: '보상 풀',
+      featLangTitle: '7개 언어',
+      featRankTitle: '랭크 배지',
+      heroPetTag: '라이브 3D — 드래그해 보세요',
+      navPlay: '플레이',
       docTitle: "SKR Burner - Solana Seeker에서 SKR 소각하고 Fire Points 획득",
       docDesc: "SKR Burner는 Solana Seeker용 논커스터디얼 앱입니다. SKR 소각, Fire Points, Flag Wars & Daily Fire Chests, 리더보드, 주간 경품 & 에어드롭 풀.",
       navFeatures: "기능",
@@ -572,19 +677,19 @@
       featBurnTitle: "Burn-to-Mine",
       featBurnBody: "단일 또는 배치 마이닝으로 SKR 소각. 모든 토큰은 온체인 검증 후 즉시 반영.",
       featFlagTitle: "Flag Wars",
-      featFlagBody: "킹오브더힐 스나이프: SOL 결제 + SKR 소각, 깃발 보유로 FP 파밍(월/목 부스트). 월요일 마지막 홀더가 팟 획득, 스나이프의 90%가 Flag 풀로.",
+      featFlagBody: '깃발 쟁탈 스나이프: SOL 지불 + SKR 번, 깃발 보유로 FP 파밍. 월요일 마지막 보유자가 상금을 가져갑니다.',
       featChestTitle: "Daily Fire Chests",
-      featChestBody: "매일 미스터리 상자 3개. 보드당 3회 오픈 후 SKR로 새로고침(최대 5회). 상자 FP는 Airdrop Pt.2에 반영.",
+      featChestBody: '하루 미스터리 상자 3개. 보드당 3개 오픈 후 SKR로 새로고침(최대 5). 상자 FP는 Airdrop Pt.2에 반영.',
       featFpTitle: "Fire Points",
       featFpBody: "소각/체크인/마일스톤마다 FP. 랭크와 풀 지분에 반영.",
       featGiveTitle: "주간 경품",
-      featGiveBody: "매주 커지는 라이브 SOL 풀. 소각으로 자격, 주 시작 푸시 알림.",
+      featGiveBody: '매주 커지는 라이브 SOL 풀. 번하면 참가 자격.',
       featAirTitle: "에어드롭 Pool PT.2",
-      featAirBody: "활성 버너용 두 번째 보상 풀. 0.5 SOL마다 알림.",
+      featAirBody: '두 번째 보상 볼트. 0.5 SOL마다 마일스톤 알림.',
       featLbTitle: "글로벌 리더보드",
-      featLbBody: "🥇🥈🥉 상위, 나머지는 랭크 배지. 소각할 때마다 실시간 상승.",
+      featLbBody: 'TOP 3 메달, 나머지는 랭크 배지. 실시간 상승.',
       featNftTitle: "NFT 민트",
-      featNftBody: "앱에서 보상 NFT 민트. 활동 피드가 실시간 업데이트.",
+      featNftBody: '앱에서 보상 NFT 민팅. 라이브 활동 피드.',
       featCheckTitle: "일일 체크인",
       featCheckBody: "매일 체크인으로 연속 보너스. 안정적 적립, 포인트 손실 없음.",
       featNotifTitle: "스마트 알림",
@@ -649,15 +754,20 @@
     if (!T[lang]) lang = "en";
     var dict = T[lang];
     document.documentElement.lang = lang;
+    var en = T.en || {};
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       var key = el.getAttribute("data-i18n");
-      if (!key || dict[key] == null) return;
-      el.textContent = dict[key];
+      if (!key) return;
+      var val = dict[key] != null ? dict[key] : en[key];
+      if (val == null) return;
+      el.textContent = val;
     });
     document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-html");
-      if (!key || dict[key] == null) return;
-      el.innerHTML = dict[key];
+      if (!key) return;
+      var val = dict[key] != null ? dict[key] : en[key];
+      if (val == null) return;
+      el.innerHTML = val;
     });
     document.querySelectorAll("[data-i18n-attr]").forEach(function (el) {
       var spec = el.getAttribute("data-i18n-attr"); // attr:key
@@ -670,9 +780,7 @@
     if (dict.docTitle) document.title = dict.docTitle;
     var meta = document.querySelector('meta[name="description"]');
     if (meta && dict.docDesc) meta.setAttribute("content", dict.docDesc);
-    document.querySelectorAll(".lang__btn").forEach(function (btn) {
-      btn.classList.toggle("is-on", btn.getAttribute("data-lang") === lang);
-    });
+    syncLangButton(lang);
     try { localStorage.setItem("skr_site_lang", lang); } catch (e) {}
   }
 
@@ -680,16 +788,58 @@
     var host = document.getElementById("lang-switch");
     if (!host) return;
     host.innerHTML = "";
+    var wrap = document.createElement("div");
+    wrap.className = "lang__wrap";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "lang__current";
+    btn.id = "lang-current";
+    btn.setAttribute("aria-haspopup", "listbox");
+    btn.setAttribute("aria-expanded", "false");
+    var menu = document.createElement("div");
+    menu.className = "lang__menu";
+    menu.id = "lang-menu";
+    menu.hidden = true;
+    menu.setAttribute("role", "listbox");
     LANGS.forEach(function (L) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "lang__btn";
-      b.setAttribute("data-lang", L.code);
-      b.setAttribute("aria-label", L.label);
-      b.title = L.label;
-      b.textContent = L.flag;
-      b.addEventListener("click", function () { apply(L.code); });
-      host.appendChild(b);
+      var opt = document.createElement("button");
+      opt.type = "button";
+      opt.className = "lang__opt";
+      opt.setAttribute("data-lang", L.code);
+      opt.setAttribute("role", "option");
+      opt.innerHTML = '<span class="lang__flag">' + L.flag + '</span><span class="lang__name">' + L.label + '</span>';
+      opt.addEventListener("click", function () {
+        apply(L.code);
+        menu.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+      });
+      menu.appendChild(opt);
+    });
+    btn.addEventListener("click", function () {
+      var open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+      menu.hidden = open;
+    });
+    document.addEventListener("click", function (e) {
+      if (!wrap.contains(e.target)) {
+        menu.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+    wrap.appendChild(btn);
+    wrap.appendChild(menu);
+    host.appendChild(wrap);
+  }
+
+  function syncLangButton(lang) {
+    var btn = document.getElementById("lang-current");
+    if (!btn) return;
+    var L = LANGS.find(function (x) { return x.code === lang; }) || LANGS[0];
+    btn.innerHTML = '<span class="lang__flag">' + L.flag + '</span><span class="lang__code">' + L.code.toUpperCase() + '</span>';
+    btn.title = L.label;
+    btn.setAttribute("aria-label", L.label);
+    document.querySelectorAll(".lang__opt").forEach(function (opt) {
+      opt.classList.toggle("is-on", opt.getAttribute("data-lang") === lang);
     });
   }
 
