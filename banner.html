@@ -229,7 +229,17 @@
       40% { transform: scaleY(1.12) scaleX(0.92) translateY(-6px); opacity: 0.95; }
       70% { transform: scaleY(0.96) scaleX(1.05) translateY(-2px); opacity: 0.8; }
     }
-    .banner.is-exporting .flame { animation: none !important; transform: none !important; }
+    .lava-base, .flames {
+      transition: none;
+    }
+    .section-title {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange-2);
+      margin: 8px 0 10px;
+    }
     .embers {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background-image:
@@ -365,7 +375,12 @@
       transform-style: preserve-3d;
       will-change: transform;
       backface-visibility: hidden;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
     }
+    .cast:active { cursor: grabbing; }
+    .cast.is-dragging { z-index: 20; outline: 1px dashed rgba(255,138,61,0.7); }
     .cast img {
       width: 100%; height: 100%;
       object-fit: contain;
@@ -392,7 +407,7 @@
   <div class="page">
     <aside class="panel">
       <h2>Banner editor</h2>
-      <p class="lead">Per ogni oggetto: <b>Tilt X</b>, <b>Turn Y</b>, <b>Spin Z</b>, size e flip. Poi <b>Salva PNG</b> esporta 1200×600.</p>
+      <p class="lead">Trascina gli oggetti sul banner. Slider per rotazione, size e fiamme. Poi <b>Salva PNG</b>.</p>
 
       <button class="btn btn--primary" id="btn-save" type="button">Salva PNG 1200×600</button>
       <button class="btn btn--ghost" id="btn-reset" type="button">Reset posizioni</button>
@@ -462,12 +477,14 @@
   "use strict";
 
   var DEFAULTS = {
-    chest: { rotX: 0, rotY: -18, rotZ: 0, size: 110, flip: false, visible: true },
-    flag:  { rotX: 0, rotY: 12,  rotZ: 0, size: 168, flip: false, visible: true },
-    fp:    { rotX: 0, rotY: -8,  rotZ: 0, size: 150, flip: false, visible: true },
-    money: { rotX: 12, rotY: -25, rotZ: 0, size: 92,  flip: false, visible: true },
-    vault: { rotX: 0, rotY: 20,  rotZ: 0, size: 88,  flip: false, visible: true },
+    chest: { rotX: 0, rotY: -18, rotZ: 0, size: 110, x: 0, y: 0, flip: false, visible: true },
+    flag:  { rotX: 0, rotY: 12,  rotZ: 0, size: 168, x: 0, y: 0, flip: false, visible: true },
+    fp:    { rotX: 0, rotY: -8,  rotZ: 0, size: 150, x: 0, y: 0, flip: false, visible: true },
+    money: { rotX: 12, rotY: -25, rotZ: 0, size: 92,  x: 0, y: 0, flip: false, visible: true },
+    vault: { rotX: 0, rotY: 20,  rotZ: 0, size: 88,  x: 0, y: 0, flip: false, visible: true },
   };
+
+  var FLAME_DEFAULTS = { x: 0, y: 0, height: 46, scale: 100, visible: true };
 
   var META = {
     chest: { label: "Fire Chest",  src: "assets/ico-app-chest.png", min: 60,  max: 220 },
@@ -477,41 +494,64 @@
     vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 50,  max: 180 },
   };
 
-  var KEY = "skr_banner_cast_v2";
-  var state = loadState();
+  var KEY = "skr_banner_cast_v3";
+  var loaded = loadAll();
+  var state = loaded.cast;
+  var flames = loaded.flames;
 
   var controls = document.getElementById("controls");
   var statusEl = document.getElementById("status");
   var banner = document.getElementById("banner");
+  var flamesEl = banner.querySelector(".flames");
+  var lavaEl = banner.querySelector(".lava-base");
 
-  function loadState() {
+  function loadAll() {
     try {
-      var raw = localStorage.getItem(KEY) || localStorage.getItem("skr_banner_cast_v1");
-      if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+      var raw = localStorage.getItem(KEY) || localStorage.getItem("skr_banner_cast_v2") || localStorage.getItem("skr_banner_cast_v1");
+      var cast = JSON.parse(JSON.stringify(DEFAULTS));
+      var fl = JSON.parse(JSON.stringify(FLAME_DEFAULTS));
+      if (!raw) return { cast: cast, flames: fl };
       var parsed = JSON.parse(raw);
-      var out = JSON.parse(JSON.stringify(DEFAULTS));
-      Object.keys(out).forEach(function (id) {
-        if (!parsed[id]) return;
-        var p = parsed[id];
-        // migrate old single-axis `rot` → rotZ
+      var src = parsed.cast || parsed;
+      Object.keys(cast).forEach(function (id) {
+        if (!src[id]) return;
+        var p = src[id];
         if (p.rot != null && p.rotZ == null) p.rotZ = p.rot;
-        Object.assign(out[id], {
-          rotX: p.rotX != null ? p.rotX : out[id].rotX,
-          rotY: p.rotY != null ? p.rotY : out[id].rotY,
-          rotZ: p.rotZ != null ? p.rotZ : out[id].rotZ,
-          size: p.size != null ? p.size : out[id].size,
+        Object.assign(cast[id], {
+          rotX: num(p.rotX, cast[id].rotX),
+          rotY: num(p.rotY, cast[id].rotY),
+          rotZ: num(p.rotZ, cast[id].rotZ),
+          size: num(p.size, cast[id].size),
+          x: num(p.x, 0),
+          y: num(p.y, 0),
           flip: !!p.flip,
           visible: p.visible !== false,
         });
       });
-      return out;
+      if (parsed.flames) {
+        fl.x = num(parsed.flames.x, 0);
+        fl.y = num(parsed.flames.y, 0);
+        fl.height = num(parsed.flames.height, 46);
+        fl.scale = num(parsed.flames.scale, 100);
+        fl.visible = parsed.flames.visible !== false;
+      }
+      return { cast: cast, flames: fl };
     } catch (e) {
-      return JSON.parse(JSON.stringify(DEFAULTS));
+      return {
+        cast: JSON.parse(JSON.stringify(DEFAULTS)),
+        flames: JSON.parse(JSON.stringify(FLAME_DEFAULTS)),
+      };
     }
   }
 
+  function num(v, fallback) {
+    return v != null && isFinite(Number(v)) ? Number(v) : fallback;
+  }
+
   function saveState() {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ cast: state, flames: flames }));
+    } catch (e) {}
   }
 
   function applyCast(id) {
@@ -522,6 +562,7 @@
     el.style.width = s.size + "px";
     el.style.height = s.size + "px";
     el.style.transform =
+      "translate(" + s.x + "px, " + s.y + "px) " +
       "perspective(900px) " +
       "rotateX(" + s.rotX + "deg) " +
       "rotateY(" + s.rotY + "deg) " +
@@ -530,8 +571,23 @@
     el.classList.toggle("is-hidden", !s.visible);
   }
 
+  function applyFlames() {
+    var t = "translate(" + flames.x + "px, " + flames.y + "px) scale(" + (flames.scale / 100) + ")";
+    if (flamesEl) {
+      flamesEl.style.transform = t;
+      flamesEl.style.transformOrigin = "50% 100%";
+      flamesEl.style.height = flames.height + "%";
+      flamesEl.style.display = flames.visible ? "" : "none";
+    }
+    if (lavaEl) {
+      lavaEl.style.transform = "translate(" + flames.x + "px, " + flames.y + "px)";
+      lavaEl.style.display = flames.visible ? "" : "none";
+    }
+  }
+
   function applyAll() {
     Object.keys(state).forEach(applyCast);
+    applyFlames();
   }
 
   function axisRow(id, axis, label, val) {
@@ -542,8 +598,43 @@
     );
   }
 
+  function posRow(id, axis, label, val, min, max) {
+    return (
+      '<div class="row"><span>' + label + '</span>' +
+        '<input type="range" min="' + min + '" max="' + max + '" step="1" value="' + val + '" data-pos="' + axis + '" data-id="' + id + '" />' +
+        '<output data-pos-out="' + axis + '-' + id + '">' + val + "px</output></div>"
+    );
+  }
+
   function buildControls() {
     controls.innerHTML = "";
+
+    var fireBox = document.createElement("div");
+    fireBox.className = "obj";
+    fireBox.innerHTML =
+      '<div class="obj__head"><b>🔥 Fiamme</b>' +
+        '<button type="button" class="obj__vis' + (flames.visible ? " on" : "") + '" data-flame-vis title="Mostra/nascondi">' +
+          (flames.visible ? "👁" : "🚫") +
+        "</button></div>" +
+      '<div class="row"><span>Move X</span>' +
+        '<input type="range" min="-200" max="200" step="1" value="' + flames.x + '" data-flame="x" />' +
+        '<output data-flame-out="x">' + flames.x + "px</output></div>" +
+      '<div class="row"><span>Move Y</span>' +
+        '<input type="range" min="-180" max="120" step="1" value="' + flames.y + '" data-flame="y" />' +
+        '<output data-flame-out="y">' + flames.y + "px</output></div>" +
+      '<div class="row"><span>Height</span>' +
+        '<input type="range" min="20" max="70" step="1" value="' + flames.height + '" data-flame="height" />' +
+        '<output data-flame-out="height">' + flames.height + "%</output></div>" +
+      '<div class="row"><span>Scale</span>' +
+        '<input type="range" min="50" max="160" step="1" value="' + flames.scale + '" data-flame="scale" />' +
+        '<output data-flame-out="scale">' + flames.scale + "%</output></div>";
+    controls.appendChild(fireBox);
+
+    var title = document.createElement("div");
+    title.className = "section-title";
+    title.textContent = "Oggetti (trascinabili)";
+    controls.appendChild(title);
+
     Object.keys(META).forEach(function (id) {
       var m = META[id];
       var s = state[id];
@@ -557,6 +648,8 @@
             (s.visible ? "👁" : "🚫") +
           "</button>" +
         "</div>" +
+        posRow(id, "x", "Move X", s.x, -400, 400) +
+        posRow(id, "y", "Move Y", s.y, -400, 400) +
         axisRow(id, "rotX", "Tilt X", s.rotX) +
         axisRow(id, "rotY", "Turn Y", s.rotY) +
         axisRow(id, "rotZ", "Spin Z", s.rotZ) +
@@ -570,8 +663,30 @@
     });
   }
 
+  function syncPosOutputs(id) {
+    var ox = controls.querySelector('[data-pos-out="x-' + id + '"]');
+    var oy = controls.querySelector('[data-pos-out="y-' + id + '"]');
+    var ix = controls.querySelector('input[data-pos="x"][data-id="' + id + '"]');
+    var iy = controls.querySelector('input[data-pos="y"][data-id="' + id + '"]');
+    if (ox) ox.textContent = state[id].x + "px";
+    if (oy) oy.textContent = state[id].y + "px";
+    if (ix) ix.value = String(state[id].x);
+    if (iy) iy.value = String(state[id].y);
+  }
+
   controls.addEventListener("input", function (e) {
     var t = e.target;
+
+    if (t.hasAttribute("data-flame")) {
+      var key = t.getAttribute("data-flame");
+      flames[key] = Number(t.value);
+      var fo = controls.querySelector('[data-flame-out="' + key + '"]');
+      if (fo) fo.textContent = flames[key] + (key === "height" || key === "scale" ? "%" : "px");
+      applyFlames();
+      saveState();
+      return;
+    }
+
     var id = t.getAttribute("data-id") || t.getAttribute("data-size") || t.getAttribute("data-flip");
     if (!id) return;
 
@@ -580,6 +695,11 @@
       state[id][axis] = Number(t.value);
       var o = controls.querySelector('[data-out="' + axis + "-" + id + '"]');
       if (o) o.textContent = state[id][axis] + "°";
+    } else if (t.hasAttribute("data-pos")) {
+      var paxis = t.getAttribute("data-pos");
+      state[id][paxis] = Number(t.value);
+      var po = controls.querySelector('[data-pos-out="' + paxis + "-" + id + '"]');
+      if (po) po.textContent = state[id][paxis] + "px";
     } else if (t.hasAttribute("data-size")) {
       state[id].size = Number(t.value);
       var o2 = controls.querySelector('[data-size-out="' + id + '"]');
@@ -592,18 +712,66 @@
   });
 
   controls.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-vis]");
-    if (!btn) return;
-    var id = btn.getAttribute("data-vis");
+    if (e.target.closest("[data-flame-vis]")) {
+      flames.visible = !flames.visible;
+      var btn = e.target.closest("[data-flame-vis]");
+      btn.classList.toggle("on", flames.visible);
+      btn.textContent = flames.visible ? "👁" : "🚫";
+      applyFlames();
+      saveState();
+      return;
+    }
+    var btn2 = e.target.closest("[data-vis]");
+    if (!btn2) return;
+    var id = btn2.getAttribute("data-vis");
     state[id].visible = !state[id].visible;
-    btn.classList.toggle("on", state[id].visible);
-    btn.textContent = state[id].visible ? "👁" : "🚫";
+    btn2.classList.toggle("on", state[id].visible);
+    btn2.textContent = state[id].visible ? "👁" : "🚫";
     applyCast(id);
     saveState();
   });
 
+  // Drag objects on the banner
+  (function enableDrag() {
+    var drag = null;
+    banner.addEventListener("pointerdown", function (e) {
+      var el = e.target.closest(".cast");
+      if (!el || banner.classList.contains("is-exporting")) return;
+      var id = el.getAttribute("data-id");
+      if (!id || !state[id] || !state[id].visible) return;
+      e.preventDefault();
+      el.setPointerCapture(e.pointerId);
+      el.classList.add("is-dragging");
+      drag = {
+        id: id,
+        el: el,
+        startX: e.clientX,
+        startY: e.clientY,
+        origX: state[id].x,
+        origY: state[id].y,
+      };
+    });
+    banner.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      state[drag.id].x = Math.round(drag.origX + (e.clientX - drag.startX));
+      state[drag.id].y = Math.round(drag.origY + (e.clientY - drag.startY));
+      applyCast(drag.id);
+      syncPosOutputs(drag.id);
+    });
+    function endDrag(e) {
+      if (!drag) return;
+      drag.el.classList.remove("is-dragging");
+      try { drag.el.releasePointerCapture(e.pointerId); } catch (err) {}
+      saveState();
+      drag = null;
+    }
+    banner.addEventListener("pointerup", endDrag);
+    banner.addEventListener("pointercancel", endDrag);
+  })();
+
   document.getElementById("btn-reset").addEventListener("click", function () {
     state = JSON.parse(JSON.stringify(DEFAULTS));
+    flames = JSON.parse(JSON.stringify(FLAME_DEFAULTS));
     saveState();
     buildControls();
     applyAll();
@@ -624,6 +792,9 @@
     btn.disabled = true;
     setStatus("Esporto…");
     banner.classList.add("is-exporting");
+    document.querySelectorAll(".cast.is-dragging").forEach(function (el) {
+      el.classList.remove("is-dragging");
+    });
     try {
       await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
       var canvas = await html2canvas(banner, {
