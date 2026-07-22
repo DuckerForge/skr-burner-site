@@ -2,28 +2,22 @@
 
 Landing page for **SKR Burner** (`com.duckerforge.skrburn`), the non-custodial SKR token burner for the Solana Mobile Seeker.
 
-Live site: **https://duckerforge.github.io/skr-burner-site/** (after Pages is enabled)
+Live site: **https://duckerforge.github.io/skr-burner-site/**
 
 ## What's here
-- `index.html` — single-page site (hero, features, screens, how-it-works, download CTA)
+- `index.html` — single-page site (hero, features, Flag Wars, Fire Chests, screens, how-it-works, download CTA)
 - `styles.css` — dark theme, orange `#ff6600` accent, fire motif, fully responsive
+- `i18n.js` — 7 languages
 - `script.js` — tiny scroll-reveal (no dependencies, no build step)
-- `assets/` — logo, app icon, favicon
-- `screenshots/` — drop real app captures here (see below)
+- `assets/` — logo, app icon, favicon, flagbearer, fire-chests art, nft-high, feature icons
+- `screenshots/` — real Seeker phone captures (Home, Play hub, Daily Fire Chests)
 
-## Use real screenshots (optional)
-The Screens section currently uses CSS-built mockups so the site looks complete with zero captures.
-To swap in real ones:
-
-1. Save PNGs into `screenshots/` (e.g. `burn.png`, `mining.png`, `leaderboard.png`).
-2. In `index.html`, replace a `<figure class="phone">…</figure>` block's inner markup with:
-   ```html
-   <img src="screenshots/burn.png" alt="Burn screen" class="shot" />
-   ```
-3. Done — commit and push, GitHub Pages updates automatically.
+## Screens & visuals (v2.1.5)
+- **Hero + Screens** use real Seeker captures (not CSS mockups).
+- **Feature icons** for Burn / Flag Wars / Fire Chests / Fire Points / NFT use crops of shipped app art.
+- Flag Bearer + NFT phone frames use `assets/flagbearer.png` and `assets/nft-high.png`.
 
 ## Run locally
-Just open `index.html` in a browser, or:
 ```bash
 python3 -m http.server 8000   # then visit http://localhost:8000
 ```
