@@ -302,6 +302,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      perspective: 900px;
+      perspective-origin: 50% 45%;
+      transform-style: preserve-3d;
     }
     .phone {
       position: relative;
@@ -344,7 +347,9 @@
       z-index: 3;
       filter: drop-shadow(0 12px 24px rgba(0,0,0,0.55));
       transform-origin: center center;
+      transform-style: preserve-3d;
       will-change: transform;
+      backface-visibility: hidden;
     }
     .cast img {
       width: 100%; height: 100%;
@@ -372,7 +377,7 @@
   <div class="page">
     <aside class="panel">
       <h2>Banner editor</h2>
-      <p class="lead">Ruota e ridimensiona ogni oggetto. Poi <b>Salva PNG</b> esporta esattamente 1200×600.</p>
+      <p class="lead">Per ogni oggetto: <b>Tilt X</b>, <b>Turn Y</b>, <b>Spin Z</b>, size e flip. Poi <b>Salva PNG</b> esporta 1200×600.</p>
 
       <button class="btn btn--primary" id="btn-save" type="button">Salva PNG 1200×600</button>
       <button class="btn btn--ghost" id="btn-reset" type="button">Reset posizioni</button>
@@ -441,11 +446,11 @@
   "use strict";
 
   var DEFAULTS = {
-    chest: { rot: 0,   size: 110, flip: false, visible: true },
-    flag:  { rot: 0,   size: 168, flip: false, visible: true },
-    fp:    { rot: 0,   size: 150, flip: false, visible: true },
-    money: { rot: 0,   size: 92,  flip: false, visible: true },
-    vault: { rot: 0,   size: 88,  flip: false, visible: true },
+    chest: { rotX: 0, rotY: -18, rotZ: 0, size: 110, flip: false, visible: true },
+    flag:  { rotX: 0, rotY: 12,  rotZ: 0, size: 168, flip: false, visible: true },
+    fp:    { rotX: 0, rotY: -8,  rotZ: 0, size: 150, flip: false, visible: true },
+    money: { rotX: 12, rotY: -25, rotZ: 0, size: 92,  flip: false, visible: true },
+    vault: { rotX: 0, rotY: 20,  rotZ: 0, size: 88,  flip: false, visible: true },
   };
 
   var META = {
@@ -456,7 +461,7 @@
     vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 50,  max: 180 },
   };
 
-  var KEY = "skr_banner_cast_v1";
+  var KEY = "skr_banner_cast_v2";
   var state = loadState();
 
   var controls = document.getElementById("controls");
@@ -465,12 +470,23 @@
 
   function loadState() {
     try {
-      var raw = localStorage.getItem(KEY);
+      var raw = localStorage.getItem(KEY) || localStorage.getItem("skr_banner_cast_v1");
       if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
       var parsed = JSON.parse(raw);
       var out = JSON.parse(JSON.stringify(DEFAULTS));
       Object.keys(out).forEach(function (id) {
-        if (parsed[id]) Object.assign(out[id], parsed[id]);
+        if (!parsed[id]) return;
+        var p = parsed[id];
+        // migrate old single-axis `rot` → rotZ
+        if (p.rot != null && p.rotZ == null) p.rotZ = p.rot;
+        Object.assign(out[id], {
+          rotX: p.rotX != null ? p.rotX : out[id].rotX,
+          rotY: p.rotY != null ? p.rotY : out[id].rotY,
+          rotZ: p.rotZ != null ? p.rotZ : out[id].rotZ,
+          size: p.size != null ? p.size : out[id].size,
+          flip: !!p.flip,
+          visible: p.visible !== false,
+        });
       });
       return out;
     } catch (e) {
@@ -489,12 +505,25 @@
     var flip = s.flip ? -1 : 1;
     el.style.width = s.size + "px";
     el.style.height = s.size + "px";
-    el.style.transform = "rotate(" + s.rot + "deg) scaleX(" + flip + ")";
+    el.style.transform =
+      "perspective(900px) " +
+      "rotateX(" + s.rotX + "deg) " +
+      "rotateY(" + s.rotY + "deg) " +
+      "rotateZ(" + s.rotZ + "deg) " +
+      "scaleX(" + flip + ")";
     el.classList.toggle("is-hidden", !s.visible);
   }
 
   function applyAll() {
     Object.keys(state).forEach(applyCast);
+  }
+
+  function axisRow(id, axis, label, val) {
+    return (
+      '<div class="row"><span>' + label + '</span>' +
+        '<input type="range" min="-180" max="180" step="1" value="' + val + '" data-axis="' + axis + '" data-id="' + id + '" />' +
+        '<output data-out="' + axis + '-' + id + '">' + val + "°</output></div>"
+    );
   }
 
   function buildControls() {
@@ -512,9 +541,9 @@
             (s.visible ? "👁" : "🚫") +
           "</button>" +
         "</div>" +
-        '<div class="row"><span>Rot</span>' +
-          '<input type="range" min="-180" max="180" step="1" value="' + s.rot + '" data-rot="' + id + '" />' +
-          '<output data-rot-out="' + id + '">' + s.rot + "°</output></div>" +
+        axisRow(id, "rotX", "Tilt X", s.rotX) +
+        axisRow(id, "rotY", "Turn Y", s.rotY) +
+        axisRow(id, "rotZ", "Spin Z", s.rotZ) +
         '<div class="row"><span>Size</span>' +
           '<input type="range" min="' + m.min + '" max="' + m.max + '" step="1" value="' + s.size + '" data-size="' + id + '" />' +
           '<output data-size-out="' + id + '">' + s.size + "px</output></div>" +
@@ -527,12 +556,14 @@
 
   controls.addEventListener("input", function (e) {
     var t = e.target;
-    var id = t.getAttribute("data-rot") || t.getAttribute("data-size") || t.getAttribute("data-flip");
+    var id = t.getAttribute("data-id") || t.getAttribute("data-size") || t.getAttribute("data-flip");
     if (!id) return;
-    if (t.hasAttribute("data-rot")) {
-      state[id].rot = Number(t.value);
-      var o = controls.querySelector('[data-rot-out="' + id + '"]');
-      if (o) o.textContent = state[id].rot + "°";
+
+    if (t.hasAttribute("data-axis")) {
+      var axis = t.getAttribute("data-axis");
+      state[id][axis] = Number(t.value);
+      var o = controls.querySelector('[data-out="' + axis + "-" + id + '"]');
+      if (o) o.textContent = state[id][axis] + "°";
     } else if (t.hasAttribute("data-size")) {
       state[id].size = Number(t.value);
       var o2 = controls.querySelector('[data-size-out="' + id + '"]');
@@ -578,7 +609,6 @@
     setStatus("Esporto…");
     banner.classList.add("is-exporting");
     try {
-      // Wait a frame so animation:none applies before capture
       await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
       var canvas = await html2canvas(banner, {
         width: 1200,
@@ -589,7 +619,6 @@
         allowTaint: false,
         logging: false,
       });
-      // Force exact size in case devicePixelRatio interfered
       var out = document.createElement("canvas");
       out.width = 1200;
       out.height = 600;
