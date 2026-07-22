@@ -258,10 +258,10 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 0.92fr 1.08fr;
       height: 100%;
-      padding: 42px 48px 52px;
-      gap: 20px;
+      padding: 36px 40px 48px;
+      gap: 12px;
       overflow: visible;
     }
     .copy { display: flex; flex-direction: column; justify-content: center; gap: 14px; }
@@ -280,7 +280,7 @@
     }
     h1 {
       font-family: "Space Grotesk", sans-serif;
-      font-size: 58px;
+      font-size: 48px;
       line-height: 1.02;
       font-weight: 700;
       letter-spacing: -0.03em;
@@ -292,10 +292,10 @@
       color: transparent;
     }
     .sub {
-      font-size: 17px;
+      font-size: 15px;
       color: var(--muted);
       line-height: 1.45;
-      max-width: 460px;
+      max-width: 400px;
     }
     .chips {
       display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px;
@@ -330,25 +330,43 @@
       align-items: center;
       justify-content: center;
       overflow: visible;
+      min-height: 520px;
     }
-    .phone {
+    .phone-glow {
+      position: absolute;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,102,0,0.42), transparent 70%);
+      filter: blur(30px);
+      z-index: 0;
+      right: 80px;
+    }
+
+    /* Multi-phone cluster like old store promo */
+    .phones {
       position: relative;
-      width: 232px;
-      height: 470px;
-      border-radius: 34px;
-      padding: 10px;
-      background: linear-gradient(160deg, #1c1c26, #0c0c12);
-      border: 1px solid #2c2c3a;
-      box-shadow: 0 28px 60px -20px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.06);
+      width: 520px;
+      height: 520px;
       z-index: 2;
     }
+    .phone {
+      position: absolute;
+      width: 168px;
+      height: 340px;
+      border-radius: 28px;
+      padding: 8px;
+      background: linear-gradient(160deg, #1c1c26, #0c0c12);
+      border: 1px solid #2c2c3a;
+      box-shadow: 0 24px 50px -18px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
     .phone__notch {
-      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
-      width: 88px; height: 18px; background: #000; border-radius: 0 0 12px 12px; z-index: 3;
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 64px; height: 14px; background: #000; border-radius: 0 0 10px 10px; z-index: 3;
     }
     .phone__screen {
       width: 100%; height: 100%;
-      border-radius: 26px;
+      border-radius: 22px;
       overflow: hidden;
       background: #000;
     }
@@ -358,13 +376,41 @@
       object-position: top center;
       display: block;
     }
-    .phone-glow {
+    .phone__tag {
       position: absolute;
-      width: 280px; height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,102,0,0.4), transparent 70%);
-      filter: blur(30px);
+      left: 50%;
+      bottom: -26px;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--orange-2);
+      white-space: nowrap;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
+    .phone--back {
+      left: 18px; top: 70px;
+      transform: rotate(-10deg);
       z-index: 1;
+      opacity: 0.92;
+    }
+    .phone--mid {
+      left: 160px; top: 36px;
+      transform: rotate(3deg);
+      z-index: 2;
+      width: 178px;
+      height: 360px;
+    }
+    .phone--front {
+      left: 310px; top: 78px;
+      transform: rotate(9deg);
+      z-index: 3;
+      width: 188px;
+      height: 380px;
+      box-shadow: 0 30px 60px -16px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,102,0,0.25);
     }
 
     /* Casts live on the banner root (not inside .stage) so 3D rotate never gets clipped */
@@ -377,7 +423,6 @@
       touch-action: none;
       user-select: none;
       overflow: visible;
-      /* NO filter here — filter+3D+overflow:hidden clips the mesh diagonally */
     }
     .cast:active { cursor: grabbing; }
     .cast.is-dragging { z-index: 30; outline: 1px dashed rgba(255,138,61,0.7); }
@@ -393,11 +438,11 @@
     .cast.is-hidden { display: none; }
 
     /* default left/top in banner coords (1200×600) */
-    .cast--fp    { left: 1010px; top: 50px;  width: 150px; height: 150px; }
-    .cast--flag  { left: 990px;  top: 330px; width: 168px; height: 168px; }
-    .cast--chest { left: 820px;  top: 400px; width: 120px; height: 120px; }
-    .cast--money { left: 640px;  top: 430px; width: 92px;  height: 92px; }
-    .cast--vault { left: 620px;  top: 90px;  width: 88px;  height: 88px; }
+    .cast--fp    { left: 1080px; top: 30px;  width: 120px; height: 120px; }
+    .cast--flag  { left: 1040px; top: 300px; width: 140px; height: 140px; }
+    .cast--chest { left: 560px;  top: 420px; width: 100px; height: 100px; }
+    .cast--money { left: 520px;  top: 60px;  width: 78px;  height: 78px; }
+    .cast--vault { left: 500px;  top: 200px; width: 72px;  height: 72px; }
 
     @media (max-width: 1100px) {
       .page { grid-template-columns: 1fr; }
@@ -450,9 +495,10 @@
               Mint burn NFTs. Climb the leaderboard and fight for weekly SOL pools.
             </p>
             <div class="chips">
+              <span class="chip"><img src="assets/ico-app-fp.png" alt="" /> Pet</span>
               <span class="chip"><img src="assets/ico-app-flag.png" alt="" /> Flag Wars</span>
               <span class="chip"><img src="assets/ico3d-chest.png" alt="" /> Fire Chests</span>
-              <span class="chip"><img src="assets/ico-app-money.png" alt="" /> Weekly Pool</span>
+              <span class="chip"><img src="assets/ico-app-nft.png" alt="" /> NFT</span>
             </div>
             <div class="brand">
               <img src="assets/logo.jpg" alt="SKR Burner" />
@@ -465,10 +511,27 @@
 
           <div class="stage">
             <div class="phone-glow" aria-hidden="true"></div>
-            <div class="phone">
-              <div class="phone__notch"></div>
-              <div class="phone__screen">
-                <img src="screenshots/home.jpg" alt="SKR Burner on Seeker" width="720" height="1602" />
+            <div class="phones">
+              <div class="phone phone--back">
+                <div class="phone__notch"></div>
+                <div class="phone__screen">
+                  <img src="screenshots/play.jpg" alt="Play hub" />
+                </div>
+                <span class="phone__tag">Play</span>
+              </div>
+              <div class="phone phone--mid">
+                <div class="phone__notch"></div>
+                <div class="phone__screen">
+                  <img src="screenshots/chests.jpg" alt="Daily Fire Chests" />
+                </div>
+                <span class="phone__tag">Fire Chests</span>
+              </div>
+              <div class="phone phone--front">
+                <div class="phone__notch"></div>
+                <div class="phone__screen">
+                  <img src="screenshots/login.jpg" alt="Login with Flag Wars" />
+                </div>
+                <span class="phone__tag">Flag Wars</span>
               </div>
             </div>
           </div>
@@ -483,11 +546,11 @@
 
   var DEFAULTS = {
     // x/y = left/top in banner pixels (1200×600)
-    chest: { rotX: 0, rotY: 0, rotZ: 0, size: 120, x: 820, y: 400, flip: false, visible: true },
-    flag:  { rotX: 0, rotY: 0, rotZ: 0, size: 168, x: 990, y: 330, flip: false, visible: true },
-    fp:    { rotX: 0, rotY: 0, rotZ: 0, size: 150, x: 1010, y: 50,  flip: false, visible: true },
-    money: { rotX: 0, rotY: 0, rotZ: 0, size: 92,  x: 640, y: 430, flip: false, visible: true },
-    vault: { rotX: 0, rotY: 0, rotZ: 0, size: 88,  x: 620, y: 90,  flip: false, visible: true },
+    chest: { rotX: 0, rotY: 0, rotZ: 0, size: 100, x: 560, y: 420, flip: false, visible: true },
+    flag:  { rotX: 0, rotY: 0, rotZ: 0, size: 140, x: 1040, y: 300, flip: false, visible: true },
+    fp:    { rotX: 0, rotY: 0, rotZ: 0, size: 120, x: 1080, y: 30,  flip: false, visible: true },
+    money: { rotX: 0, rotY: 0, rotZ: 0, size: 78,  x: 520, y: 60,  flip: false, visible: true },
+    vault: { rotX: 0, rotY: 0, rotZ: 0, size: 72,  x: 500, y: 200, flip: false, visible: true },
   };
 
   var FLAME_DEFAULTS = { x: 0, y: 0, height: 46, scale: 100, visible: true };
@@ -500,7 +563,7 @@
     vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 50,  max: 180 },
   };
 
-  var KEY = "skr_banner_cast_v4";
+  var KEY = "skr_banner_cast_v5";
   var loaded = loadAll();
   var state = loaded.cast;
   var flames = loaded.flames;
