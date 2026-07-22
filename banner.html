@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SKR Burner · Store banner 1200×600</title>
+  <title>SKR Burner · Store banner editor 1200×600</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
       --bg: #060508;
@@ -14,35 +15,138 @@
       --orange-2: #ff8a3d;
       --txt: #f6f5fa;
       --muted: #9b99ab;
+      --panel: #12111a;
+      --line: #2a2836;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      background: #111;
+      background: #0a0a0e;
       min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--txt);
+    }
+    .page {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+    .panel {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      padding: 18px 16px 28px;
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+    .panel h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+    .panel .lead {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      font-weight: 700; font-size: 0.95rem;
+      padding: 12px 16px; border-radius: 12px;
+      border: none; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+    }
+    .btn:disabled { opacity: 0.55; cursor: wait; }
+    .btn--primary {
+      background: linear-gradient(180deg, var(--orange-2), var(--orange));
+      color: #fff;
+      box-shadow: 0 8px 22px -8px rgba(255,102,0,0.7);
+      margin-bottom: 10px;
+    }
+    .btn--primary:hover:not(:disabled) { transform: translateY(-1px); }
+    .btn--ghost {
+      background: rgba(255,255,255,0.04);
+      color: var(--txt);
+      border: 1px solid var(--line);
+      margin-bottom: 18px;
+    }
+    .status {
+      font-size: 0.78rem;
+      color: var(--muted);
+      min-height: 1.2em;
+      margin-bottom: 14px;
+    }
+    .status.ok { color: #6fe38f; }
+    .status.err { color: #ff7a7a; }
+
+    .obj {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .obj__head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .obj__head img {
+      width: 36px; height: 36px; object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+    .obj__head b {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.92rem;
+      flex: 1;
+    }
+    .obj__vis {
+      width: 34px; height: 28px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .obj__vis.on { color: var(--orange-2); border-color: rgba(255,102,0,0.5); }
+    .row {
+      display: grid;
+      grid-template-columns: 52px 1fr 44px;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .row input[type="range"] { width: 100%; accent-color: var(--orange); }
+    .row output {
+      font-variant-numeric: tabular-nums;
+      color: var(--txt);
+      text-align: right;
+      font-size: 0.75rem;
+    }
+    .checks {
+      display: flex; gap: 12px; margin-top: 4px;
+      font-size: 0.75rem; color: var(--muted);
+    }
+    .checks label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+
+    .stage-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 18px;
-      font-family: Inter, system-ui, sans-serif;
-      color: var(--txt);
+      gap: 14px;
       padding: 24px;
+      background:
+        radial-gradient(60% 50% at 50% 40%, rgba(255,102,0,0.08), transparent 70%),
+        #07070a;
     }
-    .hint {
-      font-size: 0.92rem;
-      color: #aaa;
-      text-align: center;
-      max-width: 640px;
-      line-height: 1.45;
-    }
-    .hint b { color: var(--orange-2); }
-    .hint code {
-      background: #1a1a22;
-      padding: 2px 8px;
-      border-radius: 6px;
-      color: var(--orange-2);
+    .stage-wrap .meta {
       font-size: 0.85rem;
+      color: var(--muted);
     }
+    .stage-wrap .meta b { color: var(--orange-2); }
 
     /* Exact Seeker Store banner frame */
     .banner {
@@ -54,6 +158,7 @@
       background: var(--bg);
       box-shadow: 0 30px 80px -20px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,102,0,0.25);
       isolation: isolate;
+      flex-shrink: 0;
     }
 
     .grid {
@@ -65,7 +170,6 @@
       mask-image: radial-gradient(ellipse 75% 70% at 55% 40%, #000 20%, transparent 75%);
       z-index: 0;
     }
-
     .glow {
       position: absolute;
       border-radius: 50%;
@@ -83,8 +187,6 @@
       left: -40px; top: 80px;
       background: radial-gradient(circle, rgba(255,80,0,0.28), transparent 70%);
     }
-
-    /* Bottom flames like the site */
     .flames {
       position: absolute; left: 0; right: 0; bottom: 0; height: 42%;
       z-index: 1; pointer-events: none; overflow: hidden;
@@ -100,7 +202,7 @@
       transform-origin: 50% 100%;
       animation: waver 3s ease-in-out infinite;
     }
-    .flame:nth-child(1) { left: 2%; width: 140px; height: 260px; animation-delay: 0s; }
+    .flame:nth-child(1) { left: 2%; width: 140px; height: 260px; }
     .flame:nth-child(2) { left: 14%; width: 90px; height: 200px; animation-delay: -0.5s; opacity: 0.55; }
     .flame:nth-child(3) { left: 28%; width: 160px; height: 300px; animation-delay: -1.1s; }
     .flame:nth-child(4) { left: 45%; width: 120px; height: 240px; animation-delay: -0.3s; opacity: 0.6; }
@@ -112,6 +214,7 @@
       40% { transform: scaleY(1.15) scaleX(0.9); opacity: 0.85; }
       70% { transform: scaleY(0.95) scaleX(1.06); opacity: 0.65; }
     }
+    .banner.is-exporting .flame { animation: none !important; }
     .embers {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background-image:
@@ -134,7 +237,6 @@
       padding: 42px 48px 52px;
       gap: 20px;
     }
-
     .copy { display: flex; flex-direction: column; justify-content: center; gap: 14px; }
     .pill {
       align-self: flex-start;
@@ -237,103 +339,279 @@
       z-index: 1;
     }
 
-    /* Front-facing 3D cast (static PNGs, no rotation) */
     .cast {
       position: absolute;
       z-index: 3;
       filter: drop-shadow(0 12px 24px rgba(0,0,0,0.55));
-      pointer-events: none;
-    }
-    .cast--fp {
-      width: 150px; height: 150px;
-      right: -8px; top: 36px;
-    }
-    .cast--flag {
-      width: 168px; height: 168px;
-      right: -18px; bottom: 70px;
-    }
-    .cast--chest {
-      width: 110px; height: 110px;
-      right: 120px; bottom: 28px;
-    }
-    .cast--money {
-      width: 92px; height: 92px;
-      left: 18px; bottom: 48px;
-      z-index: 4;
-    }
-    .cast--vault {
-      width: 88px; height: 88px;
-      left: 8px; top: 70px;
-      z-index: 1;
-      opacity: 0.95;
+      transform-origin: center center;
+      will-change: transform;
     }
     .cast img {
       width: 100%; height: 100%;
       object-fit: contain;
       display: block;
+      pointer-events: none;
     }
+    .cast.is-hidden { display: none; }
 
-    @media print {
-      body { background: #000; padding: 0; }
-      .hint { display: none; }
-      .banner { box-shadow: none; border-radius: 0; }
+    /* default positions */
+    .cast--fp    { right: -8px;  top: 36px;   width: 150px; height: 150px; z-index: 5; }
+    .cast--flag  { right: -18px; bottom: 70px; width: 168px; height: 168px; z-index: 4; }
+    .cast--chest { right: 120px; bottom: 28px; width: 110px; height: 110px; z-index: 5; }
+    .cast--money { left: 18px;   bottom: 48px; width: 92px;  height: 92px;  z-index: 4; }
+    .cast--vault { left: 8px;    top: 70px;    width: 88px;  height: 88px;  z-index: 1; }
+
+    @media (max-width: 1100px) {
+      .page { grid-template-columns: 1fr; }
+      .panel { max-height: none; border-right: none; border-bottom: 1px solid var(--line); }
+      .stage-wrap { overflow-x: auto; }
     }
   </style>
 </head>
 <body>
-  <p class="hint">
-    Banner Seeker Store <b>1200 × 600</b>. Apri questa pagina, zoom 100%, screenshot del riquadro sotto
-    (o stampa / salva come PNG). File: <code>banner.html</code>
-  </p>
+  <div class="page">
+    <aside class="panel">
+      <h2>Banner editor</h2>
+      <p class="lead">Ruota e ridimensiona ogni oggetto. Poi <b>Salva PNG</b> esporta esattamente 1200×600.</p>
 
-  <div class="banner" id="banner" aria-label="SKR Burner store banner 1200 by 600">
-    <div class="grid" aria-hidden="true"></div>
-    <div class="glow glow--r" aria-hidden="true"></div>
-    <div class="glow glow--l" aria-hidden="true"></div>
-    <div class="flames" aria-hidden="true">
-      <span class="flame"></span><span class="flame"></span><span class="flame"></span>
-      <span class="flame"></span><span class="flame"></span><span class="flame"></span>
-      <span class="flame"></span>
-    </div>
-    <div class="embers" aria-hidden="true"></div>
+      <button class="btn btn--primary" id="btn-save" type="button">Salva PNG 1200×600</button>
+      <button class="btn btn--ghost" id="btn-reset" type="button">Reset posizioni</button>
+      <div class="status" id="status"></div>
 
-    <div class="inner">
-      <div class="copy">
-        <span class="pill"><span class="pill__dot"></span> Built for the Solana Seeker</span>
-        <h1>Burn <span class="grad">SKR</span>.<br />Earn <span class="grad">Fire Points</span>.</h1>
-        <p class="sub">
-          Non-custodial burner on Solana Mainnet. Flag Wars, Daily Fire Chests,
-          weekly giveaways and airdrop pools. All from your Seeker.
-        </p>
-        <div class="chips">
-          <span class="chip"><img src="assets/ico-app-flag.png" alt="" /> Flag Wars</span>
-          <span class="chip"><img src="assets/ico-app-chest.png" alt="" /> Fire Chests</span>
-          <span class="chip"><img src="assets/ico-app-money.png" alt="" /> Weekly Pool</span>
+      <div id="controls"></div>
+    </aside>
+
+    <main class="stage-wrap">
+      <p class="meta">Anteprima <b>1200 × 600</b> · zoom browser 100% consigliato</p>
+
+      <div class="banner" id="banner" aria-label="SKR Burner store banner 1200 by 600">
+        <div class="grid" aria-hidden="true"></div>
+        <div class="glow glow--r" aria-hidden="true"></div>
+        <div class="glow glow--l" aria-hidden="true"></div>
+        <div class="flames" aria-hidden="true">
+          <span class="flame"></span><span class="flame"></span><span class="flame"></span>
+          <span class="flame"></span><span class="flame"></span><span class="flame"></span>
+          <span class="flame"></span>
         </div>
-        <div class="brand">
-          <img src="assets/logo.jpg" alt="SKR Burner" />
-          <div>
-            <b>SKR Burner</b>
-            <span>com.duckerforge.skrburn · Solana Mainnet</span>
+        <div class="embers" aria-hidden="true"></div>
+
+        <div class="inner">
+          <div class="copy">
+            <span class="pill"><span class="pill__dot"></span> Built for the Solana Seeker</span>
+            <h1>Burn <span class="grad">SKR</span>.<br />Earn <span class="grad">Fire Points</span>.</h1>
+            <p class="sub">
+              Non-custodial burner on Solana Mainnet. Flag Wars, Daily Fire Chests,
+              weekly giveaways and airdrop pools. All from your Seeker.
+            </p>
+            <div class="chips">
+              <span class="chip"><img src="assets/ico-app-flag.png" alt="" /> Flag Wars</span>
+              <span class="chip"><img src="assets/ico-app-chest.png" alt="" /> Fire Chests</span>
+              <span class="chip"><img src="assets/ico-app-money.png" alt="" /> Weekly Pool</span>
+            </div>
+            <div class="brand">
+              <img src="assets/logo.jpg" alt="SKR Burner" />
+              <div>
+                <b>SKR Burner</b>
+                <span>com.duckerforge.skrburn · Solana Mainnet</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage">
+            <div class="phone-glow" aria-hidden="true"></div>
+            <div class="cast cast--vault" data-id="vault"><img src="assets/ico-app-vault.png" alt="Vault" /></div>
+            <div class="phone">
+              <div class="phone__notch"></div>
+              <div class="phone__screen">
+                <img src="screenshots/home.jpg" alt="SKR Burner on Seeker" width="720" height="1602" />
+              </div>
+            </div>
+            <div class="cast cast--fp" data-id="fp"><img src="assets/ico-app-fp.png" alt="Flame pet" /></div>
+            <div class="cast cast--flag" data-id="flag"><img src="assets/ico-app-flag.png" alt="Flag Bearer" /></div>
+            <div class="cast cast--chest" data-id="chest"><img src="assets/ico-app-chest.png" alt="Fire Chest" /></div>
+            <div class="cast cast--money" data-id="money"><img src="assets/ico-app-money.png" alt="Weekly pool" /></div>
           </div>
         </div>
       </div>
-
-      <div class="stage">
-        <div class="phone-glow" aria-hidden="true"></div>
-        <div class="cast cast--vault"><img src="assets/ico-app-vault.png" alt="" /></div>
-        <div class="phone">
-          <div class="phone__notch"></div>
-          <div class="phone__screen">
-            <img src="screenshots/home.jpg" alt="SKR Burner on Seeker" width="720" height="1602" />
-          </div>
-        </div>
-        <div class="cast cast--fp"><img src="assets/ico-app-fp.png" alt="Flame pet" /></div>
-        <div class="cast cast--flag"><img src="assets/ico-app-flag.png" alt="Flag Bearer" /></div>
-        <div class="cast cast--chest"><img src="assets/ico-app-chest.png" alt="Fire Chest" /></div>
-        <div class="cast cast--money"><img src="assets/ico-app-money.png" alt="Weekly pool" /></div>
-      </div>
-    </div>
+    </main>
   </div>
+
+  <script>
+(function () {
+  "use strict";
+
+  var DEFAULTS = {
+    chest: { rot: 0,   size: 110, flip: false, visible: true },
+    flag:  { rot: 0,   size: 168, flip: false, visible: true },
+    fp:    { rot: 0,   size: 150, flip: false, visible: true },
+    money: { rot: 0,   size: 92,  flip: false, visible: true },
+    vault: { rot: 0,   size: 88,  flip: false, visible: true },
+  };
+
+  var META = {
+    chest: { label: "Fire Chest",  src: "assets/ico-app-chest.png", min: 60,  max: 220 },
+    flag:  { label: "Flag Bearer", src: "assets/ico-app-flag.png",  min: 80,  max: 260 },
+    fp:    { label: "Flame pet",   src: "assets/ico-app-fp.png",    min: 70,  max: 240 },
+    money: { label: "Money stack", src: "assets/ico-app-money.png", min: 50,  max: 180 },
+    vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 50,  max: 180 },
+  };
+
+  var KEY = "skr_banner_cast_v1";
+  var state = loadState();
+
+  var controls = document.getElementById("controls");
+  var statusEl = document.getElementById("status");
+  var banner = document.getElementById("banner");
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+      var parsed = JSON.parse(raw);
+      var out = JSON.parse(JSON.stringify(DEFAULTS));
+      Object.keys(out).forEach(function (id) {
+        if (parsed[id]) Object.assign(out[id], parsed[id]);
+      });
+      return out;
+    } catch (e) {
+      return JSON.parse(JSON.stringify(DEFAULTS));
+    }
+  }
+
+  function saveState() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function applyCast(id) {
+    var el = document.querySelector('.cast[data-id="' + id + '"]');
+    if (!el) return;
+    var s = state[id];
+    var flip = s.flip ? -1 : 1;
+    el.style.width = s.size + "px";
+    el.style.height = s.size + "px";
+    el.style.transform = "rotate(" + s.rot + "deg) scaleX(" + flip + ")";
+    el.classList.toggle("is-hidden", !s.visible);
+  }
+
+  function applyAll() {
+    Object.keys(state).forEach(applyCast);
+  }
+
+  function buildControls() {
+    controls.innerHTML = "";
+    Object.keys(META).forEach(function (id) {
+      var m = META[id];
+      var s = state[id];
+      var box = document.createElement("div");
+      box.className = "obj";
+      box.innerHTML =
+        '<div class="obj__head">' +
+          '<img src="' + m.src + '" alt="" />' +
+          "<b>" + m.label + "</b>" +
+          '<button type="button" class="obj__vis' + (s.visible ? " on" : "") + '" data-vis="' + id + '" title="Mostra/nascondi">' +
+            (s.visible ? "👁" : "🚫") +
+          "</button>" +
+        "</div>" +
+        '<div class="row"><span>Rot</span>' +
+          '<input type="range" min="-180" max="180" step="1" value="' + s.rot + '" data-rot="' + id + '" />' +
+          '<output data-rot-out="' + id + '">' + s.rot + "°</output></div>" +
+        '<div class="row"><span>Size</span>' +
+          '<input type="range" min="' + m.min + '" max="' + m.max + '" step="1" value="' + s.size + '" data-size="' + id + '" />' +
+          '<output data-size-out="' + id + '">' + s.size + "px</output></div>" +
+        '<div class="checks">' +
+          '<label><input type="checkbox" data-flip="' + id + '"' + (s.flip ? " checked" : "") + " /> Flip H</label>" +
+        "</div>";
+      controls.appendChild(box);
+    });
+  }
+
+  controls.addEventListener("input", function (e) {
+    var t = e.target;
+    var id = t.getAttribute("data-rot") || t.getAttribute("data-size") || t.getAttribute("data-flip");
+    if (!id) return;
+    if (t.hasAttribute("data-rot")) {
+      state[id].rot = Number(t.value);
+      var o = controls.querySelector('[data-rot-out="' + id + '"]');
+      if (o) o.textContent = state[id].rot + "°";
+    } else if (t.hasAttribute("data-size")) {
+      state[id].size = Number(t.value);
+      var o2 = controls.querySelector('[data-size-out="' + id + '"]');
+      if (o2) o2.textContent = state[id].size + "px";
+    } else if (t.hasAttribute("data-flip")) {
+      state[id].flip = !!t.checked;
+    }
+    applyCast(id);
+    saveState();
+  });
+
+  controls.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-vis]");
+    if (!btn) return;
+    var id = btn.getAttribute("data-vis");
+    state[id].visible = !state[id].visible;
+    btn.classList.toggle("on", state[id].visible);
+    btn.textContent = state[id].visible ? "👁" : "🚫";
+    applyCast(id);
+    saveState();
+  });
+
+  document.getElementById("btn-reset").addEventListener("click", function () {
+    state = JSON.parse(JSON.stringify(DEFAULTS));
+    saveState();
+    buildControls();
+    applyAll();
+    setStatus("Reset fatto.", "ok");
+  });
+
+  function setStatus(msg, kind) {
+    statusEl.textContent = msg || "";
+    statusEl.className = "status" + (kind ? " " + kind : "");
+  }
+
+  document.getElementById("btn-save").addEventListener("click", async function () {
+    var btn = document.getElementById("btn-save");
+    if (typeof html2canvas !== "function") {
+      setStatus("html2canvas non caricato. Controlla la rete.", "err");
+      return;
+    }
+    btn.disabled = true;
+    setStatus("Esporto…");
+    banner.classList.add("is-exporting");
+    try {
+      // Wait a frame so animation:none applies before capture
+      await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
+      var canvas = await html2canvas(banner, {
+        width: 1200,
+        height: 600,
+        scale: 1,
+        backgroundColor: "#060508",
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+      });
+      // Force exact size in case devicePixelRatio interfered
+      var out = document.createElement("canvas");
+      out.width = 1200;
+      out.height = 600;
+      var ctx = out.getContext("2d");
+      ctx.drawImage(canvas, 0, 0, 1200, 600);
+      var a = document.createElement("a");
+      a.download = "skr-burner-banner-1200x600.png";
+      a.href = out.toDataURL("image/png");
+      a.click();
+      setStatus("PNG scaricato: skr-burner-banner-1200x600.png", "ok");
+    } catch (err) {
+      console.error(err);
+      setStatus("Export fallito: " + (err && err.message ? err.message : err), "err");
+    } finally {
+      banner.classList.remove("is-exporting");
+      btn.disabled = false;
+    }
+  });
+
+  buildControls();
+  applyAll();
+})();
+  </script>
 </body>
 </html>
