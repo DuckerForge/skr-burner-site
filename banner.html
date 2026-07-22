@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@500;600&display=swap" rel="stylesheet" />
+  <script type="module" src="assets/js/model-viewer.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
@@ -413,36 +414,43 @@
       box-shadow: 0 30px 60px -16px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,102,0,0.25);
     }
 
-    /* Casts live on the banner root (not inside .stage) so 3D rotate never gets clipped */
+    /* Real GLB models via model-viewer */
     .cast {
       position: absolute;
       z-index: 8;
-      transform-origin: center center;
-      will-change: transform;
       cursor: grab;
       touch-action: none;
       user-select: none;
       overflow: visible;
+      background: transparent;
     }
     .cast:active { cursor: grabbing; }
     .cast.is-dragging { z-index: 30; outline: 1px dashed rgba(255,138,61,0.7); }
-    .cast img {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      display: block;
-      pointer-events: none;
-      filter: drop-shadow(0 14px 22px rgba(0,0,0,0.6));
-      transform-origin: center center;
-      will-change: transform;
+    .cast model-viewer {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      --poster-color: transparent;
+      pointer-events: none; /* drag handled by .cast; rotate via sliders */
+      filter: drop-shadow(0 14px 22px rgba(0,0,0,0.55));
     }
     .cast.is-hidden { display: none; }
+    .cast__shot {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: none;
+      pointer-events: none;
+      filter: drop-shadow(0 14px 22px rgba(0,0,0,0.55));
+    }
+    .banner.is-exporting .cast model-viewer { visibility: hidden; }
+    .banner.is-exporting .cast__shot { display: block; }
 
     /* default left/top in banner coords (1200×600) */
-    .cast--fp    { left: 1080px; top: 30px;  width: 120px; height: 120px; }
-    .cast--flag  { left: 1040px; top: 300px; width: 140px; height: 140px; }
-    .cast--chest { left: 560px;  top: 420px; width: 100px; height: 100px; }
-    .cast--money { left: 520px;  top: 60px;  width: 78px;  height: 78px; }
-    .cast--vault { left: 500px;  top: 200px; width: 72px;  height: 72px; }
+    .cast--fp    { left: 1050px; top: 20px;  width: 150px; height: 170px; }
+    .cast--flag  { left: 1020px; top: 280px; width: 170px; height: 190px; }
+    .cast--chest { left: 540px;  top: 390px; width: 130px; height: 130px; }
+    .cast--money { left: 500px;  top: 40px;  width: 100px; height: 100px; }
+    .cast--vault { left: 480px;  top: 180px; width: 100px; height: 100px; }
 
     @media (max-width: 1100px) {
       .page { grid-template-columns: 1fr; }
@@ -455,7 +463,7 @@
   <div class="page">
     <aside class="panel">
       <h2>Banner editor</h2>
-      <p class="lead">Trascina gli oggetti sul banner. Slider per rotazione, size e fiamme. Poi <b>Salva PNG</b>.</p>
+      <p class="lead">Modelli <b>3D veri</b> (GLB). Tilt / Turn / Spin ruotano il modello. Trascina per spostare. Poi <b>Salva PNG</b>.</p>
 
       <button class="btn btn--primary" id="btn-save" type="button">Salva PNG 1200×600</button>
       <button class="btn btn--ghost" id="btn-reset" type="button">Reset posizioni</button>
@@ -479,12 +487,42 @@
         </div>
         <div class="embers" aria-hidden="true"></div>
 
-        <!-- 3D cast: banner-level so rotate never clips against phone/stage -->
-        <div class="cast cast--vault" data-id="vault"><img src="assets/ico-app-vault.png" alt="Vault" /></div>
-        <div class="cast cast--fp" data-id="fp"><img src="assets/ico-app-fp.png" alt="Flame pet" /></div>
-        <div class="cast cast--flag" data-id="flag"><img src="assets/ico-app-flag.png" alt="Flag Bearer" /></div>
-        <div class="cast cast--chest" data-id="chest"><img src="assets/ico3d-chest.png" alt="Fire Chest" /></div>
-        <div class="cast cast--money" data-id="money"><img src="assets/ico-app-money.png" alt="Weekly pool" /></div>
+        <!-- Live GLB models (real 3D) -->
+        <div class="cast cast--vault" data-id="vault">
+          <model-viewer src="assets/models/vault.glb" alt="Vault"
+            exposure="1.2" shadow-intensity="0" interaction-prompt="none"
+            disable-zoom disable-pan camera-orbit="30deg 70deg 105%"
+            orientation="0deg 0deg 0deg" loading="eager"></model-viewer>
+          <img class="cast__shot" alt="" />
+        </div>
+        <div class="cast cast--fp" data-id="fp">
+          <model-viewer src="assets/models/flame.glb" alt="Flame pet"
+            exposure="1.2" shadow-intensity="0" interaction-prompt="none"
+            disable-zoom disable-pan camera-orbit="0deg 75deg 105%"
+            orientation="0deg 0deg 0deg" loading="eager"></model-viewer>
+          <img class="cast__shot" alt="" />
+        </div>
+        <div class="cast cast--flag" data-id="flag">
+          <model-viewer src="assets/models/flagbearer.glb" alt="Flag Bearer"
+            exposure="1.2" shadow-intensity="0" interaction-prompt="none"
+            disable-zoom disable-pan camera-orbit="20deg 75deg 110%"
+            orientation="0deg 0deg 0deg" loading="eager"></model-viewer>
+          <img class="cast__shot" alt="" />
+        </div>
+        <div class="cast cast--chest" data-id="chest">
+          <model-viewer src="assets/models/chest.glb" alt="Fire Chest"
+            exposure="1.25" shadow-intensity="0" interaction-prompt="none"
+            disable-zoom disable-pan camera-orbit="25deg 70deg 105%"
+            orientation="0deg 0deg 0deg" loading="eager"></model-viewer>
+          <img class="cast__shot" alt="" />
+        </div>
+        <div class="cast cast--money" data-id="money">
+          <model-viewer src="assets/models/money.glb" alt="Weekly pool"
+            exposure="1.15" shadow-intensity="0" interaction-prompt="none"
+            disable-zoom disable-pan camera-orbit="35deg 65deg 105%"
+            orientation="0deg 0deg 0deg" loading="eager"></model-viewer>
+          <img class="cast__shot" alt="" />
+        </div>
 
         <div class="inner">
           <div class="copy">
@@ -546,24 +584,25 @@
 
   var DEFAULTS = {
     // x/y = left/top in banner pixels (1200×600)
-    chest: { rotX: 0, rotY: 0, rotZ: 0, size: 100, x: 560, y: 420, flip: false, visible: true },
-    flag:  { rotX: 0, rotY: 0, rotZ: 0, size: 140, x: 1040, y: 300, flip: false, visible: true },
-    fp:    { rotX: 0, rotY: 0, rotZ: 0, size: 120, x: 1080, y: 30,  flip: false, visible: true },
-    money: { rotX: 0, rotY: 0, rotZ: 0, size: 78,  x: 520, y: 60,  flip: false, visible: true },
-    vault: { rotX: 0, rotY: 0, rotZ: 0, size: 72,  x: 500, y: 200, flip: false, visible: true },
+    // rotX = pitch, rotY = yaw, rotZ = roll → model-viewer orientation
+    chest: { rotX: 0, rotY: -25, rotZ: 0, size: 130, x: 540, y: 390, flip: false, visible: true },
+    flag:  { rotX: 0, rotY: 20,  rotZ: 0, size: 170, x: 1020, y: 280, flip: false, visible: true },
+    fp:    { rotX: 0, rotY: -10, rotZ: 0, size: 150, x: 1050, y: 20,  flip: false, visible: true },
+    money: { rotX: 10, rotY: -30, rotZ: 0, size: 100, x: 500, y: 40,  flip: false, visible: true },
+    vault: { rotX: 0, rotY: 25,  rotZ: 0, size: 100, x: 480, y: 180, flip: false, visible: true },
   };
 
   var FLAME_DEFAULTS = { x: 0, y: 0, height: 46, scale: 100, visible: true };
 
   var META = {
-    chest: { label: "Fire Chest",  src: "assets/ico3d-chest.png",   min: 60,  max: 280 },
-    flag:  { label: "Flag Bearer", src: "assets/ico-app-flag.png",  min: 80,  max: 260 },
-    fp:    { label: "Flame pet",   src: "assets/ico-app-fp.png",    min: 70,  max: 240 },
-    money: { label: "Money stack", src: "assets/ico-app-money.png", min: 50,  max: 180 },
-    vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 50,  max: 180 },
+    chest: { label: "Fire Chest",  src: "assets/ico3d-chest.png",   min: 70,  max: 280 },
+    flag:  { label: "Flag Bearer", src: "assets/ico-app-flag.png",  min: 90,  max: 280 },
+    fp:    { label: "Flame pet",   src: "assets/ico-app-fp.png",    min: 80,  max: 260 },
+    money: { label: "Money stack", src: "assets/ico-app-money.png", min: 60,  max: 200 },
+    vault: { label: "Vault",       src: "assets/ico-app-vault.png", min: 60,  max: 200 },
   };
 
-  var KEY = "skr_banner_cast_v5";
+  var KEY = "skr_banner_cast_v6";
   var loaded = loadAll();
   var state = loaded.cast;
   var flames = loaded.flames;
@@ -627,22 +666,19 @@
     var el = document.querySelector('.cast[data-id="' + id + '"]');
     if (!el) return;
     var s = state[id];
-    var flip = s.flip ? -1 : 1;
     el.style.left = s.x + "px";
     el.style.top = s.y + "px";
     el.style.right = "auto";
     el.style.bottom = "auto";
     el.style.width = s.size + "px";
     el.style.height = s.size + "px";
-    // Transform on wrapper (.cast), filter stays on <img> — avoids diagonal clip bug
-    el.style.transform =
-      "perspective(1200px) " +
-      "rotateX(" + s.rotX + "deg) " +
-      "rotateY(" + s.rotY + "deg) " +
-      "rotateZ(" + s.rotZ + "deg) " +
-      "scaleX(" + flip + ")";
-    var img = el.querySelector("img");
-    if (img) img.style.transform = "none";
+
+    var mv = el.querySelector("model-viewer");
+    if (mv) {
+      // Real 3D model orientation (pitch yaw roll)
+      var yaw = s.flip ? s.rotY + 180 : s.rotY;
+      mv.setAttribute("orientation", s.rotX + "deg " + yaw + "deg " + s.rotZ + "deg");
+    }
     el.classList.toggle("is-hidden", !s.visible);
   }
 
@@ -860,6 +896,55 @@
     statusEl.className = "status" + (kind ? " " + kind : "");
   }
 
+  async function snapshotModelsForExport() {
+    var casts = Array.prototype.slice.call(banner.querySelectorAll(".cast"));
+    await Promise.all(casts.map(function (el) {
+      var mv = el.querySelector("model-viewer");
+      var shot = el.querySelector(".cast__shot");
+      if (!mv || !shot || el.classList.contains("is-hidden")) return Promise.resolve();
+      return new Promise(function (resolve) {
+        function snap() {
+          if (shot.dataset.ready === "1") { resolve(); return; }
+          shot.dataset.ready = "1";
+          var p = null;
+          if (typeof mv.toBlob === "function") {
+            p = mv.toBlob({ mimeType: "image/png", idealAspect: false });
+          } else if (typeof mv.toDataURL === "function") {
+            try {
+              shot.src = mv.toDataURL("image/png");
+              resolve();
+              return;
+            } catch (e) {}
+          }
+          // Fallback: grab WebGL canvas from shadow root
+          if (!p) {
+            try {
+              var canvas = mv.shadowRoot && mv.shadowRoot.querySelector("canvas");
+              if (canvas) {
+                shot.src = canvas.toDataURL("image/png");
+                resolve();
+                return;
+              }
+            } catch (e2) {}
+            resolve();
+            return;
+          }
+          p.then(function (blob) {
+            if (!blob) { resolve(); return; }
+            shot.src = URL.createObjectURL(blob);
+            resolve();
+          }).catch(function () { resolve(); });
+        }
+        shot.dataset.ready = "0";
+        if (mv.loaded) snap();
+        else mv.addEventListener("load", snap, { once: true });
+        setTimeout(snap, 2500);
+      });
+    }));
+    // let images decode
+    await new Promise(function (r) { setTimeout(r, 120); });
+  }
+
   document.getElementById("btn-save").addEventListener("click", async function () {
     var btn = document.getElementById("btn-save");
     if (typeof html2canvas !== "function") {
@@ -867,12 +952,13 @@
       return;
     }
     btn.disabled = true;
-    setStatus("Esporto…");
+    setStatus("Render 3D → PNG…");
     banner.classList.add("is-exporting");
     document.querySelectorAll(".cast.is-dragging").forEach(function (el) {
       el.classList.remove("is-dragging");
     });
     try {
+      await snapshotModelsForExport();
       await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
       var canvas = await html2canvas(banner, {
         width: 1200,
@@ -880,7 +966,7 @@
         scale: 1,
         backgroundColor: "#060508",
         useCORS: true,
-        allowTaint: false,
+        allowTaint: true,
         logging: false,
       });
       var out = document.createElement("canvas");
