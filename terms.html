@@ -31,7 +31,7 @@
   <main class="legal">
     <p class="legal__crumb"><a href="index.html">Home</a> · Terms of Service</p>
     <h1>Terms of Service</h1>
-    <p class="legal__updated">Last updated: July 2026</p>
+    <p class="legal__updated">Last updated: August 2026</p>
     
 <p>These Terms of Service ("Terms") govern your use of the SKR Burner decentralized application (the "dApp") published by DuckerForge. By connecting your wallet and using the dApp, you agree to these Terms.</p>
 
@@ -61,13 +61,39 @@
 
 <h2>4. Flag Wars</h2>
 <ul>
-  <li>Flag Wars is an optional in-app mini-game. Sniping the flag requires paying SOL (starting at 0.005 SOL, increasing ×1.15 per successful steal) and burning a small amount of SKR.</li>
-  <li>Of each sniper payment: <strong>90%</strong> goes to the Flag bag (community pool) and <strong>10%</strong> to development / operations.</li>
+  <li>Flag Wars is an optional in-app mini-game. Sniping the flag requires paying SOL (starting at 0.05 SOL and increasing with every successful steal: ×1.5 while the price is low, ×1.2 above 0.25 SOL, ×1.15 above 1 SOL) and burning a small amount of SKR.</li>
+  <li>Of each sniper payment: <strong>65%</strong> goes to the Flag bag (community pool), <strong>25%</strong> is paid on-chain to the previous flag holder in the same transaction, <strong>2%</strong> to the Weekly Giveaway pool, <strong>3%</strong> to Airdrop Pt.2 and <strong>5%</strong> to development / operations. When there is no previous holder (first steal of the week) that 25% stays in the Flag bag.</li>
   <li>Holding the flag accrues Fire Points over time (base rate, with higher rates on selected days). Hold rewards are credited when the flag is stolen or when the weekly reset settles.</li>
   <li>The Monday reset awards the current flag holder the Flag bag prize (subject to rollover rules). Participation is voluntary and carries the same blockchain risks described below.</li>
 </ul>
 
-<h2>5. Risks and Disclaimers</h2>
+<h2>5. Fire Vault and SKR Chest</h2>
+<p>The Fire Vault and the SKR Chest are optional in-app features in which the outcome of each opening is determined by chance. They are not required in order to use the dApp, and no part of the dApp is conditional on participating in them.</p>
+<ul>
+  <li><strong>Outcome determination:</strong> Each opening is resolved server-side by a single random draw performed at the moment the opening is processed, using a cryptographically seeded generator. The draw is recorded in an audit entry tied to that opening and is not repeated: an opening that has been drawn cannot be re-drawn, whether or not the participant reopens the application.</li>
+  <li><strong>Fire Vault:</strong> entry of 0.1 SOL, up to three openings per participant per day. A winning opening pays 40% of the Vault pool as it stands at the moment of the draw. Openings that do not win award FirePoints only. Of each entry, 90% is added to the Vault pool, 2.5% to the Weekly Giveaway pool, 2.5% to the Airdrop Pt.2 pool and 5% to development and operations.</li>
+  <li><strong>SKR Chest:</strong> entry of approximately USD 2 payable in SKR, up to three openings per participant per day. A winning opening pays 40% of the Chest pool as it stands at the moment of the draw. Of each entry, 90% is added to the Chest pool, 9% to development and operations, and 1% is irreversibly burned.</li>
+  <li><strong>Stated probabilities:</strong> as at the date of this document, the probability of a winning opening is 5% for the Fire Vault and 10% for the SKR Chest. An opening funded by a Key (see below) is drawn at half the applicable probability. Each opening is drawn independently: previous outcomes do not affect subsequent ones, and no sequence of unsuccessful openings increases the probability of a subsequent one.</li>
+  <li><strong>Keys:</strong> a Magic Key or SKR Key may be used to fund one of the participant's daily openings in place of the entry amount. A Key does not grant an additional opening beyond the daily limit, and an opening funded by a Key is drawn at half the probability stated above.</li>
+  <li><strong>Variable prize:</strong> the prize is expressed as a percentage of a pool whose balance changes continuously with the activity of other participants. No prize amount is fixed, promised or guaranteed, and the amount displayed before an opening may differ from the amount payable at the moment of the draw.</li>
+  <li><strong>Amendment of parameters:</strong> entry amounts, probabilities, prize percentages and daily limits may be amended at any time in order to maintain the balance of the features. The parameters in force are those displayed within the application at the time of the opening, which prevail over any figure stated in this document.</li>
+  <li><strong>Finality:</strong> entry amounts are paid on-chain and are final. They are not refundable, and an opening that has been drawn cannot be reversed, cancelled or compensated, including where the outcome is unsuccessful.</li>
+  <li><strong>FirePoints:</strong> FirePoints are a non-transferable in-app score with no monetary value. They are not redeemable for currency, tokens or goods, and confer no claim of any kind.</li>
+</ul>
+
+<h2>6. Eligibility and Participant Responsibility</h2>
+<p>This section applies to the features described in sections 3, 4 and 5, in which the outcome or the allocation of a prize involves an element of chance.</p>
+<ul>
+  <li><strong>Eligibility:</strong> By participating, you represent and warrant that you have attained the age of majority in the jurisdiction in which you are resident and from which you access the dApp, and in any event that you are at least 18 years of age.</li>
+  <li><strong>Lawfulness of participation:</strong> You further represent and warrant that your participation is permitted under the laws applicable to you, and that you are not accessing the dApp from a jurisdiction in which participation in features of this nature is restricted, subject to authorisation, or prohibited. Determining whether your participation is lawful is your sole responsibility, and you should obtain independent advice where you are in any doubt.</li>
+  <li><strong>No offer where prohibited:</strong> These features are not offered, advertised or otherwise made available to any person in any jurisdiction in which doing so would require a licence, authorisation or registration, or would otherwise be unlawful. Nothing in the dApp or on this website constitutes an offer or solicitation to any such person. Participation is void where prohibited by law.</li>
+  <li><strong>Restriction of access:</strong> We reserve the right to restrict, suspend or withdraw access to any or all of these features, in whole or in part, by territory or in respect of an individual account, at any time and without prior notice, including where required in order to comply with any applicable law or with the requirements of any distribution platform.</li>
+  <li><strong>Assumption of risk:</strong> Participation is entirely voluntary and undertaken at your own risk. You accept that any amount you commit may be lost in its entirety, that no outcome is promised, and that you assume full responsibility for your participation and for any loss arising from it.</li>
+  <li><strong>Taxes:</strong> You are solely responsible for determining and discharging any tax liability arising from any prize or other amount you receive.</li>
+  <li><strong>Not a regulated product:</strong> These features are offered as promotional entertainment mechanics within the dApp and are not offered as, and do not constitute, a regulated gambling, betting or financial product.</li>
+</ul>
+
+<h2>7. Risks and Disclaimers</h2>
 <ul>
   <li><strong>Beta Software:</strong> The dApp is provided "as-is." Use it at your own risk.</li>
   <li><strong>Smart Contract Risk:</strong> While we use standard SPL-token and Metaplex protocols, interactions with the Solana blockchain carry inherent risks.</li>
@@ -75,7 +101,7 @@
   <li><strong>No investment advice:</strong> Nothing in the dApp constitutes financial, investment, or legal advice.</li>
 </ul>
 
-<h2>6. Contact</h2>
+<h2>8. Contact</h2>
 <p>For support or publisher inquiries, contact DuckerForge via the official channels linked from <a href="index.html">duckerforge.github.io/skr-burner-site</a> or X: <a href="https://x.com/SKRBurner" rel="noopener" target="_blank">@SKRBurner</a>.</p>
 
     <nav class="legal__nav" aria-label="Legal">
