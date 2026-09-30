@@ -179,4 +179,20 @@
       document.body.removeChild(ta);
     }
   })();
+
+  /* ---------- Seeker dApp Store deep link (Android only, falls back to the web store) ---------- */
+  (function () {
+    var links = document.querySelectorAll("[data-store-link], .hero a[href='#download']");
+    var deep = "solanadappstore://details?id=com.duckerforge.skrburn";
+    if (!/Android/i.test(navigator.userAgent)) return;
+    document.querySelectorAll("[data-store-link]").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        var web = a.getAttribute("href");
+        var t = setTimeout(function () { window.location.href = web; }, 1400);
+        window.addEventListener("pagehide", function () { clearTimeout(t); }, { once: true });
+        window.location.href = deep;
+      });
+    });
+  })();
 })();

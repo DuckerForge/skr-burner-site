@@ -45,6 +45,7 @@
       <span class="nav__name">SKR&nbsp;Burner</span>
     </a>
     <nav class="nav__links" id="nav-links" aria-label="Primary">
+      <a href="#live" data-i18n="navLive">Live</a>
       <a href="#features" data-i18n="navFeatures">Features</a>
       <a href="#play" data-i18n="navPlay">Play</a>
     </nav>
@@ -129,11 +130,67 @@
     </section>
 
     <!-- TRUST STRIP -->
-    <section class="strip" aria-label="Highlights">
-      <div class="strip__item"><b>v2.1.5</b><span data-i18n="stripLatest">Latest release</span></div>
-      <div class="strip__item"><b data-i18n="stripOnchain">On-chain</b><span data-i18n="stripOnchainSub">Every burn verified</span></div>
-      <div class="strip__item"><b data-i18n="stripCustody">0 custody</b><span data-i18n="stripCustodySub">Wallet stays yours</span></div>
-      <div class="strip__item"><b data-i18n="stripWeekly">Weekly</b><span data-i18n="stripWeeklySub">Giveaways &amp; airdrops</span></div>
+    <section class="strip strip--live" aria-label="Live highlights">
+      <div class="strip__item"><b id="s-burned">…</b><span data-i18n="stripBurned">SKR burned in app, live</span></div>
+      <div class="strip__item"><b id="s-usd">…</b><span id="live-usd-note" data-i18n="stripUsd">value of all burns, live SKR price</span></div>
+      <div class="strip__item"><b id="s-paid">…</b><span id="s-paid-sub" data-i18n="stripPaid">SOL paid to players</span></div>
+      <div class="strip__item"><b id="s-nft">…</b><span data-i18n="stripNft">NFTs minted by burners</span></div>
+    </section>
+
+    <!-- LIVE: numbers straight from the chain and the app database -->
+    <section class="section section--live" id="live">
+      <div class="section__head reveal">
+        <span class="eyebrow"><span class="livedot"></span> <span data-i18n="liveEyebrow">Live from the chain</span></span>
+        <h2 data-i18n="liveTitle">What is burning right now</h2>
+        <p data-i18n="liveSub">Every number on this page is read live from Solana and from the same database the app uses. Nothing is typed by hand.</p>
+        <p class="live__meta"><span>SKR <b id="p-skr">…</b></span><span>SOL <b id="p-sol">…</b></span><span id="live-stamp">updating…</span></p>
+      </div>
+
+      <div class="poolgrid reveal">
+        <article class="pcard pcard--fv"><span class="pcard__k" data-i18n="lpFv">Fire Vault</span><b id="pool-fv">…</b><em id="pool-fv-usd"></em><small id="pool-fv-prize"></small><small data-i18n="lpFvSub">0.1 SOL entry · 3% base odds, up to 8% with boosts</small></article>
+        <article class="pcard pcard--mg"><span class="pcard__k" data-i18n="lpMg">Magma Vault</span><b id="pool-mg">…</b><em id="pool-mg-usd"></em><small id="pool-mg-prize"></small><small data-i18n="lpMgSub">0.5 SOL entry · 3% base odds, up to 8% with boosts</small></article>
+        <article class="pcard pcard--sc"><span class="pcard__k" data-i18n="lpSc">SKR Chest</span><b id="pool-sc">…</b><em id="pool-sc-usd"></em><small id="pool-sc-prize"></small><small data-i18n="lpScSub">$2 in SKR per entry · 6% odds · free with an SKR Key</small></article>
+        <article class="pcard pcard--wk"><span class="pcard__k" data-i18n="lpWk">Weekly Giveaway</span><b id="pool-wk">…</b><em id="pool-wk-usd"></em><small data-i18n="lpWkSub">split between 5 burners every Monday · burn once to qualify</small></article>
+        <article class="pcard pcard--cf"><span class="pcard__k" data-i18n="lpCf">Flag Wars bag</span><b id="pool-cf">…</b><em id="pool-cf-usd"></em><small><span data-i18n="lpCfHolder">holder</span> <strong id="flag-holder">…</strong> · <span id="flag-price"></span></small><small id="flag-week"></small></article>
+        <article class="pcard pcard--mo"><span class="pcard__k" data-i18n="lpMo">Monthly Draw</span><b id="pool-mo">…</b><em id="pool-mo-usd"></em><small id="pool-mo-sub"></small><small id="pool-mo-when"></small></article>
+      </div>
+
+      <div class="livegrid">
+        <div class="chartbox reveal">
+          <div class="chartbox__head">
+            <h3 data-i18n="chartTitle">SKR burned per day</h3>
+            <span data-i18n="chartSub">last 30 days · bars = SKR, line = burners</span>
+          </div>
+          <div class="chartstats">
+            <div><b id="c-today">…</b><span id="c-today-sub">today</span></div>
+            <div><b id="c-7">…</b><span id="c-7-sub">7 days</span></div>
+            <div><b id="c-30">…</b><span id="c-30-sub">30 days</span></div>
+          </div>
+          <svg id="burnchart" viewBox="0 0 900 260" preserveAspectRatio="none" role="img" aria-label="SKR burned per day, last 30 days"></svg>
+        </div>
+
+        <div class="feedbox reveal">
+          <div class="chartbox__head"><h3 data-i18n="feedTitle">Live activity</h3><span data-i18n="feedSub">same feed as the app</span></div>
+          <ul class="feed" id="livefeed"><li class="feed__row"><span class="feed__txt">loading…</span></li></ul>
+        </div>
+
+        <div class="topbox reveal">
+          <div class="chartbox__head"><h3 data-i18n="topTitle">Top burners</h3><span data-i18n="topSub">all-time, SKR torched</span></div>
+          <ol class="tb" id="topburners"></ol>
+        </div>
+
+        <div class="paidbox reveal">
+          <div class="chartbox__head"><h3 data-i18n="paidTitle">Paid out so far</h3><span data-i18n="paidSub">real SOL, sent on-chain</span></div>
+          <ul class="paid">
+            <li><span data-i18n="paidFv">Fire Vault wins</span><b id="paid-vault">…</b></li>
+            <li><span data-i18n="paidMg">Magma Vault wins</span><b id="paid-magma">…</b></li>
+            <li><span data-i18n="paidWk">Weekly Giveaway</span><b id="paid-weekly">…</b></li>
+            <li><span data-i18n="paidCf">Flag Wars champions</span><b id="paid-flag">…</b></li>
+            <li><span data-i18n="paidWinners">Weekly + Flag winners paid</span><b id="paid-winners">…</b></li>
+            <li><span data-i18n="paidNft">NFTs minted</span><b id="nft-tiers">…</b></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <!-- FEATURES, bento, centered, real app icons -->
@@ -178,7 +235,7 @@
         <article class="fcard reveal">
           <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-vault.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featAirTitle">Airdrop Pool PT.2</h3>
-          <p data-i18n="featAirBody">Second rewards vault. Milestone alerts every 0.5 SOL.</p>
+          <p data-i18n="featAirBody">121,168 SKR split by Fire Points rank: top 5 holders plus one random burner.</p>
         </article>
 
         <article class="fcard reveal">
@@ -191,6 +248,30 @@
           <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-nft.png" alt="" width="256" height="256" /></div>
           <h3 data-i18n="featNftTitle">NFT Mints</h3>
           <p data-i18n="featNftBody">Mint reward NFTs from the app. Live activity feed.</p>
+        </article>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico3d-vault.png" alt="" width="256" height="256" /></div>
+          <h3 data-i18n="featMagmaTitle">Magma Vault</h3>
+          <p data-i18n="featMagmaBody">The big one: 0.5 SOL entry, 3% base odds you can boost by playing the rest of the app. Win 40% of the pool.</p>
+        </article>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico-app-coin.png" alt="" width="256" height="256" /></div>
+          <h3 data-i18n="featFlipTitle">Coin Flip PvP</h3>
+          <p data-i18n="featFlipBody">Fire or Water. Open a challenge, another Seeker takes the other side, winner takes the pot. Provably fair commit-reveal.</p>
+        </article>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico3d-chest.png" alt="" width="256" height="256" /></div>
+          <h3 data-i18n="featMonthlyTitle">Monthly Draw</h3>
+          <p data-i18n="featMonthlyBody">Every SKR you burn is a ticket. Five winners a month split the SOL pot, claim within 7 days.</p>
+        </article>
+
+        <article class="fcard reveal">
+          <div class="fcard__ico fcard__ico--sm"><img src="assets/ico3d-flame.png" alt="" width="256" height="256" /></div>
+          <h3 data-i18n="featDropTitle">Daily Drop</h3>
+          <p data-i18n="featDropBody">Burned in the last 7 days? Claim 1 to 5 free SKR every day, signed from your own wallet.</p>
         </article>
       </div>
 
@@ -250,7 +331,7 @@
     <section class="section section--pools" id="pools">
       <div class="section__head reveal">
         <span class="eyebrow" data-i18n="poolsEyebrow">Reward pools</span>
-        <h2 data-i18n="poolsTitle">Two pools. Real SOL.</h2>
+        <h2 data-i18n="poolsTitle">Two prizes for everyone who burns.</h2>
         <p data-i18n="poolsSub">Every burn and every snipe feeds the pools, and the pools feed you back.</p>
       </div>
       <div class="pools">
@@ -261,7 +342,7 @@
             interaction-prompt="none" exposure="1.1" shadow-intensity="0"
             loading="lazy" reveal="auto"></model-viewer>
           <h3 data-i18n="poolWeeklyTitle">Weekly Giveaway</h3>
-          <p data-i18n="poolWeeklyBody">A live SOL pool that grows all week. Burn SKR to qualify. Winners drawn every Monday.</p>
+          <p data-i18n="poolWeeklyBody">A live SOL pool that grows all week. Burn SKR to qualify. Winners drawn every Monday.</p><p class="poolcard__live"><b id="pool-wk-2"></b></p>
         </div>
         <div class="poolcard reveal">
           <model-viewer class="mv mv--pool" src="assets/models/vault.glb"
@@ -270,8 +351,86 @@
             interaction-prompt="none" exposure="1.1" shadow-intensity="0"
             loading="lazy" reveal="auto"></model-viewer>
           <h3 data-i18n="poolAirTitle">Airdrop Pool PT.2</h3>
-          <p data-i18n="poolAirBody">The vault fills with every 0.5 SOL milestone. Chest FP and burns push your rank toward the airdrop.</p>
+          <p data-i18n="poolAirBody">A fixed 121,168 SKR prize split by Fire Points rank: top 5 plus one random burner. Chest FP and burns push your rank.</p><p class="poolcard__live"><b id="pool-air-usd"></b> <span data-i18n="poolAirLive">at live SKR price</span></p>
         </div>
+      </div>
+    </section>
+
+    <!-- HOW EACH GAME WORKS -->
+    <section class="section section--rules" id="rules">
+      <div class="section__head reveal">
+        <span class="eyebrow" data-i18n="rulesEyebrow">How the games work</span>
+        <h2 data-i18n="rulesTitle">Every rule, in plain words</h2>
+        <p data-i18n="rulesSub">The same numbers the app shows before you tap. Odds and prizes are read from the live config, never hidden.</p>
+      </div>
+      <div class="rules">
+        <article class="rule reveal">
+          <h3>🔥 <span data-i18n="rWkT">Weekly Giveaway</span></h3>
+          <ul>
+            <li data-i18n="rWk1">Burn at least once in the week and you are in. Burn more, rank higher.</li>
+            <li data-i18n="rWk2">Every burn, mint, claim and snipe feeds the pool: 20% of burn fees, 12.5% of mining fees, 2% of every Flag Wars snipe.</li>
+            <li data-i18n="rWk3">Monday 00:00 Rome: 5 winners, picked from the top-10 burners and at random. The pool minus a 0.1 SOL rollover is split equally.</li>
+            <li data-i18n="rWk4">Paid automatically on-chain within 15 minutes. Signature on the Ranks tab.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🎟️ <span data-i18n="rMoT">Monthly Draw</span></h3>
+          <ul>
+            <li data-i18n="rMo1">1 SKR burned this month = 1 ticket. Mining counts, every burn counts. Tickets reset on the 1st.</li>
+            <li data-i18n="rMo2">The pot is a real wallet: 30% of burn fees, 20% of claim fees, 10% of mining fees, 3% of snipes and part of every Fire Vault entry land there.</li>
+            <li data-i18n="rMo3">Drawn on the 1st at 00:10 UTC: 5 winners, random, weighted by tickets. Prize = pot minus 0.1 SOL reserve, capped at 5 SOL, split equally.</li>
+            <li data-i18n="rMo4">Winners tap CLAIM in the app within 7 days. Unclaimed SOL stays in the wallet and rolls into next month.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🏴 <span data-i18n="rCfT">Flag Wars</span></h3>
+          <ul>
+            <li data-i18n="rCf1">Pay SOL and burn SKR to steal the flag. Price starts at 0.05 SOL every Monday and climbs ×1.5, then ×1.2, then ×1.15 per snipe.</li>
+            <li data-i18n="rCf2">Of every snipe: 65% grows the bag, 25% is paid on the spot to the player you stole from, 2% weekly, 3% monthly, 5% dev.</li>
+            <li data-i18n="rCf3">Hold the flag to farm Fire Points every hour, boosted on Monday and Thursday.</li>
+            <li data-i18n="rCf4">Whoever holds it at Monday reset takes the bag minus 0.05 SOL rollover, paid automatically.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🟢 <span data-i18n="rFvT">Fire Vault</span></h3>
+          <ul>
+            <li data-i18n="rFv1">0.1 SOL per try, 3 tries a day. 90% of every entry goes into the pool, and the pool is the prize.</li>
+            <li data-i18n="rFv2">Base odds 3%, plus boosts: burn $1 of SKR, open a chest with SKR, snipe the flag, own an NFT. Up to 8%.</li>
+            <li data-i18n="rFv3">Win = 40% of the pool, sent to your wallet by the server. Fire Keys open it free at half odds.</li>
+            <li data-i18n="rFv4">The roll happens server-side after your payment is verified on-chain. The app never decides.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🌋 <span data-i18n="rMgT">Magma Vault</span></h3>
+          <ul>
+            <li data-i18n="rMg1">0.5 SOL per try, 3 tries a day. 80% goes into the pool, 5% feeds the Fire Vault.</li>
+            <li data-i18n="rMg2">Same 3% base odds and the same boosts, up to 8%. Your boosts are shown before you open.</li>
+            <li data-i18n="rMg3">Win = 40% of the pool, never less than 0.5 SOL when the wallet has it, capped at 50 SOL.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🟡 <span data-i18n="rScT">SKR Chest</span></h3>
+          <ul>
+            <li data-i18n="rSc1">$2 worth of SKR per try (price read live), 3 tries a day. 90% into the pool, 1% burned.</li>
+            <li data-i18n="rSc2">Odds 6%, win 40% of the SKR pool. SKR Keys drop from Daily Fire Chests and open it free at half odds.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🪙 <span data-i18n="rFlT">Coin Flip PvP</span></h3>
+          <ul>
+            <li data-i18n="rFl1">Pick FIRE or WATER and a stake. Your challenge sits in the lobby up to 2 hours, another Seeker takes the other side.</li>
+            <li data-i18n="rFl2">The server commits a hash before anyone joins and reveals the seed after: the result is sha256(seed + join signature). Anyone can verify it.</li>
+            <li data-i18n="rFl3">Winner gets both stakes. A 3% fee on the pot keeps the lights on. Cancel any time before someone joins.</li>
+          </ul>
+        </article>
+        <article class="rule reveal">
+          <h3>🎁 <span data-i18n="rDrT">Daily Drop &amp; Fire Chests</span></h3>
+          <ul>
+            <li data-i18n="rDr1">Daily Drop: burned at least 1 SKR in the last 7 days? Claim 1 to 5 SKR every day, from a pool fed by chest rerolls. You sign, you keep the account.</li>
+            <li data-i18n="rDr2">Daily Fire Chests: 3 free opens a day for Fire Points, reroll with SKR up to 5 times. 1 chest in 250 drops a Fire Key.</li>
+            <li data-i18n="rDr3">Airdrop Pt.2: 121,168 SKR, split by Fire Points rank between the top 5 and one random burner.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -354,23 +513,39 @@
     </section>
 
     <!-- DOWNLOAD CTA -->
+    <!-- FAIR PLAY & DISCLAIMER -->
+    <section class="section section--legal" id="fairplay">
+      <div class="legalbox reveal">
+        <span class="eyebrow" data-i18n="fpEyebrow">Fair play &amp; disclaimer</span>
+        <h2 data-i18n="fpTitle">Read this before you burn</h2>
+        <ul class="legal__list">
+          <li data-i18n="fp1"><b>Voluntary, not a bet.</b> SKR Burner is a token burner with community reward pools around it. Every entry to a vault, chest or draw is a voluntary on-chain contribution to a pool funded by players; the developer is never your counterparty, never holds your funds and cannot lose or win against you.</li>
+          <li data-i18n="fp2"><b>Entertainment only.</b> Prizes come from what players have already contributed. No outcome is promised, no return is implied and nothing here is financial, investment or legal advice. SKR and SOL are volatile and can go to zero.</li>
+          <li data-i18n="fp3"><b>Where it is not offered.</b> The reward features are not offered to anyone in a country, state or territory where such features are restricted, licensed or prohibited, and are void where prohibited. Checking your local law is your responsibility. You must be 18 or older, or the age of majority where you live.</li>
+          <li data-i18n="fp4"><b>On-chain is final.</b> Burns are irreversible and transactions cannot be refunded. Odds and prizes are shown in the app before you confirm, every roll happens server-side after your payment is verified on Solana, and every payout has a public signature.</li>
+          <li data-i18n="fp5"><b>Non-custodial.</b> Your keys never leave your Seeker. Nobody at DuckerForge can move your tokens, and nobody will ever ask for your seed phrase.</li>
+        </ul>
+        <p class="legal__more"><a href="terms.html" data-i18n="fpTerms">Full Terms of Service</a> · <a href="privacy.html" data-i18n="fpPrivacy">Privacy Policy</a></p>
+      </div>
+    </section>
+
     <section class="cta" id="download">
       <div class="cta__inner reveal">
         <div class="cta__flames" aria-hidden="true"></div>
         <img src="assets/logo.jpg" alt="SKR Burner" class="cta__logo" />
-        <p class="cta__ver">v2.1.5</p>
+        <p class="cta__ver">v2.6.5</p>
         <h2 data-i18n="ctaTitle">Ready to start burning?</h2>
         <p data-i18n="ctaBody">
-          Grab SKR Burner v2.1.5 on the Solana Seeker Store. Flag Wars, Daily Fire Chests, burns &amp; weekly pools.
+          Grab SKR Burner v2.6.5 on the Solana Seeker Store. Magma Vault, Coin Flip PvP, Monthly Draw, Flag Wars, Daily Fire Chests &amp; weekly pools.
         </p>
         <div class="cta__btns">
-          <a class="btn btn--primary btn--lg" href="https://store.solanamobile.com/" rel="noopener" target="_blank">
+          <a class="btn btn--primary btn--lg" href="https://store.solanamobile.com/" rel="noopener" target="_blank" data-store-link>
             <span data-i18n="ctaStore">🔥 Get it on Solana Seeker</span>
           </a>
           <a class="btn btn--ghost btn--lg" href="privacy.html" data-i18n="ctaPrivacy">Privacy Policy</a>
           <a class="btn btn--ghost btn--lg" href="terms.html" data-i18n="ctaTerms">Terms of Service</a>
         </div>
-        <p class="cta__fine">com.duckerforge.skrburn · v2.1.5 · Solana Mainnet · Non-custodial</p>
+        <p class="cta__fine">com.duckerforge.skrburn · v2.6.5 · Solana Mainnet · Non-custodial</p>
       </div>
     </section>
   </main>
@@ -396,5 +571,6 @@
 
   <script src="i18n.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="live.js" defer></script>
 </body>
 </html>
