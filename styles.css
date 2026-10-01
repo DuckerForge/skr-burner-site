@@ -245,8 +245,8 @@ a { color: inherit; text-decoration: none; }
 .hero__device { display: flex; justify-content: center; position: relative; }
 
 .hero__pet {
-  position: absolute; right: -8%; bottom: -6%;
-  width: 240px; height: 280px; z-index: 3;
+  position: absolute; right: -8%; bottom: -14%;
+  width: 240px; height: 360px; z-index: 3;
   background: transparent; --poster-color: transparent;
   filter: drop-shadow(0 14px 30px rgba(255,102,0,0.45));
   animation: petFloat 5s ease-in-out infinite;
@@ -681,7 +681,7 @@ a { color: inherit; text-decoration: none; }
   .hero__trust { justify-content: center; max-width: 100%; flex-direction: column; align-items: center; gap: 6px; }
   .hero__cta { flex-direction: column; width: 100%; max-width: 320px; }
   .hero__cta .btn { width: 100%; justify-content: center; }
-  .hero__pet { width: 170px; height: 200px; right: -4%; bottom: -4%; }
+  .hero__pet { width: 170px; height: 270px; right: -4%; bottom: -12%; }
   .hero__pet-tag { display: none; }
   .flames { height: 32vh; opacity: 0.9; }
   .flame { filter: blur(12px); }
