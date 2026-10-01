@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls", "delegate_permission/common.get_login_creds"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.duckerforge.skrburn",
+      "sha256_cert_fingerprints": ["BD:DD:5A:D7:41:37:E6:A6:AD:69:77:31:ED:9A:2B:5B:D5:81:69:84:31:01:9B:0D:D1:58:5E:2B:D0:BF:25:0D"]
+    }
+  }
+]
