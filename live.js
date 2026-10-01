@@ -145,14 +145,21 @@
   function loadMonthly() {
     return Promise.all([
       post(RPC, { jsonrpc: "2.0", id: 1, method: "getBalance", params: [MONTHLY_WALLET] }).catch(function () { return null; }),
-      get(DB + "/burnLotteryConfig.json").catch(function () { return null; })
+      get(DB + "/burnLotteryConfig.json").catch(function () { return null; }),
+      get(DB + "/burnLottery/draws/monthly.json").catch(function () { return null; })
     ]).then(function (r) {
       var bal = r[0] && r[0].result ? r[0].result.value / 1e9 : 0;
       var cfg = r[1] || {};
       var pct = cfg.monthlyPrizePct > 0 ? cfg.monthlyPrizePct : 1;
-      var prize = Math.min(Math.max(0, bal - MONTHLY_RESERVE) * pct, MONTHLY_CAP);
+      // Prizes already drawn but not yet claimed (7-day window) sit in the same wallet: not in play.
+      var pending = 0, draws = r[2] || {}, now = Date.now();
+      Object.keys(draws).forEach(function (k) {
+        var d = draws[k] || {}, ws = d.winners || {}, dl = +d.deadlineAt || 0;
+        Object.keys(ws).forEach(function (w) { var x = ws[w] || {}; if (!(x.claimed || x.payoutSig) && dl > now) pending += (+x.shareLamports || 0) / 1e9; });
+      });
+      var prize = Math.min(Math.max(0, bal - pending - MONTHLY_RESERVE) * pct, MONTHLY_CAP);
       setText("pool-mo", fmtSol(prize, 3)); setText("pool-mo-usd", usdSol(prize));
-      setText("pool-mo-sub", "in wallet " + fmtSol(bal, 2) + " · 5 winners · cap 5 SOL");
+      setText("pool-mo-sub", "in wallet " + fmtSol(bal, 2) + (pending > 0 ? " · " + fmtSol(pending, 2) + " waiting for last month's winners" : "") + " · 5 winners · cap 5 SOL");
       var now = new Date(), next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 10));
       setText("pool-mo-when", "draw in " + Math.max(0, Math.ceil((next - now) / 86400000)) + " days");
     });
