@@ -775,3 +775,11 @@ a { color: inherit; text-decoration: none; }
   .chartstats b { font-size: 1rem; }
   .legalbox { padding: 22px 18px; }
 }
+
+/* social (1 ott 2026) */
+.social { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 18px 0 10px; }
+.social__btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid var(--line-solid); color: var(--txt); font-weight: 600; font-size: .9rem; transition: transform .25s var(--ease), border-color .25s, background .25s; }
+.social__btn:hover { transform: translateY(-2px); border-color: rgba(255,102,0,0.55); background: rgba(255,102,0,0.12); }
+.social__btn svg { color: var(--orange-2); }
+/* flame tongues: fade the top edge instead of a hard clip (was visible on phones) */
+.flames { -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%); mask-image: linear-gradient(to top, #000 55%, transparent 100%); }
