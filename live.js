@@ -49,13 +49,17 @@
   function setText(id, txt) { var el = $(id); if (el && el.textContent !== txt) el.textContent = txt; }
 
   // Count-up on first paint only; later refreshes just swap the text.
-  var painted = {};
+  // A newer target cancels the running animation: otherwise the first count-up (started with partial
+  // data) keeps writing its own target and overwrites the fresh total when it finishes.
+  var painted = {}, runs = {};
   function countUp(id, target, render) {
     var el = $(id); if (!el) return;
+    var run = runs[id] = (runs[id] || 0) + 1;
     if (painted[id] || !(target > 0)) { painted[id] = true; el.textContent = render(target); return; }
     painted[id] = true;
     var t0 = performance.now(), dur = 1400;
     (function step(now) {
+      if (runs[id] !== run) return;
       var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
       el.textContent = render(target * e);
       if (p < 1) requestAnimationFrame(step);
