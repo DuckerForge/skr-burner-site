@@ -94,13 +94,13 @@
   function usdSol(n) { return price.sol > 0 ? fmtUsd(n * price.sol) : ""; }
 
   /* ---------- stats + pools ---------- */
-  var paid = { vault: 0, magma: 0, weekly: 0, flag: 0, weeklyWinners: 0, flagWinners: 0 };
+  var paid = { vault: 0, magma: 0, weekly: 0, flag: 0, monthly: 0, weeklyWinners: 0, flagWinners: 0 };
   function renderPaid() {
-    var tot = paid.vault + paid.magma + paid.weekly + paid.flag;
+    var tot = paid.vault + paid.magma + paid.weekly + paid.flag + paid.monthly;
     countUp("s-paid", tot, function (v) { return v.toFixed(1) + " SOL"; });
     setText("s-paid-sub", "to players" + (usdSol(tot) ? " · " + usdSol(tot) : ""));
     setText("paid-vault", fmtSol(paid.vault, 2)); setText("paid-magma", fmtSol(paid.magma, 2));
-    setText("paid-weekly", fmtSol(paid.weekly, 2)); setText("paid-flag", fmtSol(paid.flag, 2));
+    setText("paid-weekly", fmtSol(paid.weekly, 2)); setText("paid-flag", fmtSol(paid.flag, 2)); setText("paid-monthly", fmtSol(paid.monthly, 2));
     setText("paid-winners", (paid.weeklyWinners + paid.flagWinners).toLocaleString("en-US"));
   }
 
@@ -126,9 +126,10 @@
     return Promise.all([
       get(DB + "/giveaway/weekResults.json").catch(function () { return null; }),
       get(DB + "/ctf/weekResults.json").catch(function () { return null; }),
-      get(DB + "/nftStats.json").catch(function () { return null; })
+      get(DB + "/nftStats.json").catch(function () { return null; }),
+      get(DB + "/burnLottery/draws/monthly.json").catch(function () { return null; })
     ]).then(function (r) {
-      var gw = r[0] || {}, cw = r[1] || {}, nft = r[2] || {};
+      var gw = r[0] || {}, cw = r[1] || {}, nft = r[2] || {}, md = r[3] || {};
       var sum = 0, n = 0;
       Object.keys(gw).forEach(function (k) {
         var ws = gw[k] && gw[k].winners; if (!Array.isArray(ws)) return;
@@ -138,6 +139,13 @@
       var fs = 0, fn = 0;
       Object.keys(cw).forEach(function (k) { var p = cw[k] && +cw[k].prize; if (p > 0) { fs += p; fn++; } });
       paid.flag = fs; paid.flagWinners = fn;
+      // Monthly Draw: solo i premi RISCOSSI (paidLamports), non quelli in attesa.
+      var ml = 0, mn = 0;
+      Object.keys(md).forEach(function (k) {
+        var ws = (md[k] && md[k].winners) || {};
+        Object.keys(ws).forEach(function (w) { if (ws[w] && ws[w].claimed) { ml += (+ws[w].paidLamports || 0) / 1e9; mn++; } });
+      });
+      paid.monthly = ml;
       renderPaid();
       var nfts = 0; Object.keys(nft).forEach(function (t) { nfts += (nft[t] && +nft[t].count) || 0; });
       countUp("s-nft", nfts, function (v) { return Math.round(v).toLocaleString("en-US"); });
