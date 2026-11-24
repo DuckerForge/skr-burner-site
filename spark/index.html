@@ -24,7 +24,8 @@
     :root { --bg:#0A0303; --tx:#FFEFE6; --dim:#C9B4AC; --ice:#9FE3FF; --ice2:#5BC8F5; --ember:#FF6B00; --fire:#FF4500; --hot:#FFF1C9; }
     * { box-sizing:border-box; margin:0; padding:0 }
     body { background:var(--bg); color:var(--tx); font-family:Inter,system-ui,-apple-system,Roboto,sans-serif; min-height:100vh;
-      display:flex; align-items:center; justify-content:center; padding:24px 16px }
+      display:flex; align-items:flex-start; justify-content:center; padding:12px 12px 24px }
+    @media (min-height:900px) and (min-width:700px) { body { align-items:center; padding:24px 16px } }
     .card { position:relative; overflow:hidden; width:100%; max-width:440px; border-radius:18px; border:1px solid rgba(159,227,255,.35); padding:26px 20px 22px;
       background:#05080e; text-align:center }
     .card::before { content:''; position:absolute; inset:-20px; background:url(bg.jpg) center/cover; filter:blur(10px); opacity:.9 }
@@ -34,7 +35,7 @@
     @keyframes fall { to { transform:translateY(560px) } }
     @media (prefers-reduced-motion:reduce) { .flake { animation:none } }
     .in { position:relative }
-    .k { font-family:ui-monospace,monospace; font-size:11px; letter-spacing:3px; color:var(--ice); font-weight:900 }
+    .k { font-family:Inter,system-ui,sans-serif; font-size:10.5px; letter-spacing:2px; color:var(--ice); font-weight:800; white-space:nowrap }
     h1 { font-family:'Big Shoulders Display',sans-serif; font-size:56px; font-weight:900; margin:8px 0 2px; letter-spacing:1px; text-transform:uppercase; line-height:1 }
     h1 .w { color:var(--ice) } h1 .s { color:var(--ember) }
     .amt { display:flex; justify-content:center; align-items:baseline; gap:8px; margin:6px 0 4px }
